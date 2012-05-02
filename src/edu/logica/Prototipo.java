@@ -9,6 +9,7 @@ import edu.logica.KeyStoreTools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.security.KeyPair;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
@@ -35,11 +36,13 @@ public class Prototipo {
         
 //        System.out.println(cert);
         
-        KeyStoreTools kstPrueba = new KeyStoreTools();
-        kstPrueba.createKeyStore("ksPrueba", "password");
-        kstPrueba.loadKeyStore("ksPrueba", "password");
-        kstPrueba.addCertificate("google", cert, "password");
-        Certificate cerGoogle = kstPrueba.getCertificate("google");
-        System.out.println(cerGoogle);
+        KeyTools keyTools = new KeyTools();
+        KeyPair pair = keyTools.generateKeyPair();
+        
+        KeyStoreTools kstPrueba = new KeyStoreTools("ksPrueba", "password");
+//        kstPrueba.addKey("keys", pair.getPrivate(), "password");
+//        Certificate cerGoogle = kstPrueba.getCertificate("google");
+        
+//        System.out.println(cerGoogle);
   }
 }

@@ -4,15 +4,11 @@
  */
 package edu.logica;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.security.*;
 import java.security.cert.Certificate;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,13 +20,18 @@ public class KeyStoreTools {
     
     private KeyStore ks;
     private String strPath;
-    
     public KeyStoreTools(){
         
     }
     public KeyStoreTools(String path, String password){
-        createKeyStore(path, password);
-//        loadKeyStore(path, password);
+        File fileKeyStore = new File(path);
+        if(fileKeyStore.exists()){
+            loadKeyStore(path, password);
+        }
+        else{
+            createKeyStore(path, password);
+        }
+        
     }
    
     /**
@@ -71,6 +72,8 @@ public class KeyStoreTools {
         boolean bSuccess = false;
         
         try {
+            if(ks == null)
+                ks = KeyStore.getInstance(KeyStore.getDefaultType());
             
             FileInputStream fisKeyStore = new FileInputStream(path);
             ks.load(fisKeyStore, password.toCharArray());
@@ -83,6 +86,8 @@ public class KeyStoreTools {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CertificateException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (KeyStoreException ex) {
             Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
         }
       
@@ -122,6 +127,35 @@ public class KeyStoreTools {
         }
         
         return certificate;
+    }
+    
+    public boolean addKey(String alias, PrivateKey key, String password, Certificate[] chain){
+        boolean bSuccess = false;
+        try {
+            
+            ks.setKeyEntry(alias, key, password.toCharArray(), chain);
+            
+            FileOutputStream fosKeyStore = new FileOutputStream(strPath);
+            ks.store(fosKeyStore, password.toCharArray());
+//            Enumeration en=ks.aliases();
+//            
+//            while (en.hasMoreElements()) {
+//                Object object = en.nextElement();
+//                System.out.println(object);
+//            }
+            fosKeyStore.close();
+            bSuccess = true;
+            
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CertificateException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bSuccess;
     }
     
 }
