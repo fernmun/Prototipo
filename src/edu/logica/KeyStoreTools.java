@@ -72,8 +72,10 @@ public class KeyStoreTools {
         boolean bSuccess = false;
         
         try {
-            if(ks == null)
+            if(ks == null){
                 ks = KeyStore.getInstance(KeyStore.getDefaultType());
+                strPath = path;
+            }
             
             FileInputStream fisKeyStore = new FileInputStream(path);
             ks.load(fisKeyStore, password.toCharArray());
@@ -156,6 +158,16 @@ public class KeyStoreTools {
             Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bSuccess;
+    }
+    
+    public void testKeyStore() throws Exception{
+        Enumeration en = ks.aliases();
+        while (en.hasMoreElements()) {
+            Object object = en.nextElement();
+            System.out.println(object);
+        }
+        Key key = ks.getKey("testkey", "password".toCharArray());
+        System.out.println(key);
     }
     
 }
