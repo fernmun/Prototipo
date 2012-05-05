@@ -4,7 +4,10 @@
  */
 package edu.logica;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.Certificate;
@@ -12,6 +15,7 @@ import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sun.security.pkcs.PKCS10;
 import sun.security.x509.*;
 
 
@@ -27,9 +31,9 @@ public class KeyTools {
         KeyPair pair = null;
         KeyPairGenerator keyGen;
         try {
-            keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+            keyGen = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(2048, random);
+            keyGen.initialize(16*1024, random);
             pair = keyGen.generateKeyPair();
             
         } catch (NoSuchAlgorithmException ex) {
@@ -42,7 +46,7 @@ public class KeyTools {
     }
     
     public Certificate generateSelfSignedCertificate(KeyPair pair, String DN){
-        String algorithm = "SHA1withDSA";
+        String algorithm = "SHA1withRSA";
         X509CertImpl cert = null;
         try {
             //http://bfo.com/blog/2011/03/08/odds_and_ends_creating_a_new_x_509_certificate.html
@@ -61,7 +65,7 @@ public class KeyTools {
             info.set(X509CertInfo.ISSUER, new CertificateIssuerName(owner));
             info.set(X509CertInfo.KEY, new CertificateX509Key(pair.getPublic()));
             info.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3));
-            AlgorithmId algo = new AlgorithmId(AlgorithmId.sha1WithDSA_oid);
+            AlgorithmId algo = new AlgorithmId(AlgorithmId.sha1WithRSAEncryption_oid);
             info.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algo));
 
             // Sign the cert to identify the algorithm that's used.
@@ -89,6 +93,42 @@ public class KeyTools {
             Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cert;
+    }
+    
+    public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
+        // generate PKCS10 certificate request
+        String sigAlg = "SHA1withRSA";
+        PKCS10 pkcs10 = new PKCS10(publicKey);
+        Signature signature;
+        File csr = new File(path);
+        try {
+            signature = Signature.getInstance(sigAlg);
+            signature.initSign(privateKey);
+            // common, orgUnit, org, locality, state, country
+            X500Name x500Name = new X500Name(DN);
+            pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(csr);
+            pkcs10.print(ps);
+//            byte[] c = bs.toByteArray();
+//            if (ps != null)
+//                ps.close();
+//            if (bs != null)
+//                bs.close();
+        } catch (CertificateException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SignatureException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return csr;
     }
     
 }

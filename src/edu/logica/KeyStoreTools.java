@@ -161,13 +161,18 @@ public class KeyStoreTools {
     }
     
     public void testKeyStore() throws Exception{
+        KeyTools keyTools= new KeyTools();
         Enumeration en = ks.aliases();
         while (en.hasMoreElements()) {
             Object object = en.nextElement();
             System.out.println(object);
         }
         Key key = ks.getKey("testkey", "password".toCharArray());
-        System.out.println(key);
+        Certificate[] chain = ks.getCertificateChain("testkey");
+        PublicKey publicKey = chain[0].getPublicKey();
+//        System.out.println(chain[0].getPublicKey());
+        System.out.println(keyTools.generateCSR("CN=Test, L=London, C=GB", (PrivateKey)key, publicKey,"test.csr"));
+        
     }
     
 }

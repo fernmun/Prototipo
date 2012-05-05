@@ -36,16 +36,19 @@ public class Prototipo {
         
 //        System.out.println(cert);
         
-//        KeyTools keyTools = new KeyTools();
-//        KeyPair pair = keyTools.generateKeyPair();
-//        Certificate certificate = keyTools.generateSelfSignedCertificate(pair, "CN=Test, L=London, C=GB");
-        
+        KeyTools keyTools = new KeyTools();
+        KeyPair pair = keyTools.generateKeyPair();
+        System.out.println(pair.getPrivate());
+        System.out.println(pair.getPublic());
+        Certificate certificate = keyTools.generateSelfSignedCertificate(pair, "CN=Test, L=London, ST=Stale ,C=GB, O=Test");
+        System.out.println(certificate);
+        keyTools.generateCSR("CN=Test, L=London, ST=Stale ,C=GB, O=Test",pair.getPrivate(),pair.getPublic(), "test.csr");
 //        System.out.println(certificate.getPublicKey());
 //        System.out.println(pair.getPublic());
-        KeyStoreTools kstPrueba = new KeyStoreTools("ksPrueba", "password");
+//        KeyStoreTools kstPrueba = new KeyStoreTools("ksPrueba", "password");
 //        kstPrueba.addKey("testkey", pair.getPrivate(), "password", new Certificate[]{certificate});
 //        Certificate cerGoogle = kstPrueba.getCertificate("google");
-        kstPrueba.testKeyStore();
+//        kstPrueba.testKeyStore();
 //        System.out.println(cerGoogle);
   }
 }
