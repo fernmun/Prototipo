@@ -33,7 +33,7 @@ public class KeyTools {
         try {
             keyGen = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(16*1024, random);
+            keyGen.initialize(4*1024, random);
             pair = keyGen.generateKeyPair();
             
         } catch (NoSuchAlgorithmException ex) {

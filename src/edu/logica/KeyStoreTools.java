@@ -139,12 +139,6 @@ public class KeyStoreTools {
             
             FileOutputStream fosKeyStore = new FileOutputStream(strPath);
             ks.store(fosKeyStore, password.toCharArray());
-//            Enumeration en=ks.aliases();
-//            
-//            while (en.hasMoreElements()) {
-//                Object object = en.nextElement();
-//                System.out.println(object);
-//            }
             fosKeyStore.close();
             bSuccess = true;
             
@@ -160,18 +154,33 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
-    public void testKeyStore() throws Exception{
-        KeyTools keyTools= new KeyTools();
+    public void testKeyStore(Certificate cert) throws Exception{
+//        KeyTools keyTools= new KeyTools();
+        
+        Key key = ks.getKey("testkey", "password".toCharArray());
+        Certificate[] chain = ks.getCertificateChain("testkey");
+        PublicKey publicKey = chain[0].getPublicKey();
+        System.out.println(chain[0]);
+//        System.out.println(publicKey);
+//        System.out.println(key);
+        
         Enumeration en = ks.aliases();
         while (en.hasMoreElements()) {
             Object object = en.nextElement();
             System.out.println(object);
         }
-        Key key = ks.getKey("testkey", "password".toCharArray());
-        Certificate[] chain = ks.getCertificateChain("testkey");
-        PublicKey publicKey = chain[0].getPublicKey();
+        
+        Key pkey = ks.getKey("certificado", "password".toCharArray());
+        chain = ks.getCertificateChain("certificado");
+        publicKey = chain[0].getPublicKey();
+        System.out.println(chain[0]);
+//        System.out.println(publicKey);
+//        System.out.println(pkey);
+        
+//        addKey("certificado", (PrivateKey) key, "password", new Certificate[]{cert});
+//        ks.setCertificateEntry("testkey", cert);
 //        System.out.println(chain[0].getPublicKey());
-        System.out.println(keyTools.generateCSR("CN=Test, L=London, C=GB", (PrivateKey)key, publicKey,"test.csr"));
+//        System.out.println(keyTools.generateCSR("CN=Test, L=London, ST=Stale ,C=GB, O=Test", (PrivateKey)key, publicKey,"test.csr"));
         
     }
     
