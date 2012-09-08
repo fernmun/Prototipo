@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.logica;
+package edu.logic;
 
-import edu.logica.CommandExecutor;
-import edu.logica.KeyStoreTools;
+import edu.logic.CommandExecutor;
+import edu.logic.KeyStoreTools;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
