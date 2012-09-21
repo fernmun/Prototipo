@@ -10,4 +10,6 @@ package edu.api;
  */
 public interface CommandInterface {
   
+  public void processEvent();
+  
 }

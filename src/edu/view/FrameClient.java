@@ -16,8 +16,12 @@ public class FrameClient extends JFrame{
   private String title;
   private BuilderFactory factory;
   private UIDirector director;
+  private FindDocumentButton btnFindDocument;
           
   public FrameClient(int width, int height, String title, int posX, int posY, String type) {
+    // Creación de componentes
+    btnFindDocument = new FindDocumentButton();
+    
     // Set all needed properties
     this.setBounds(posX, posY, width, height);
     this.setTitle(title);
@@ -26,10 +30,6 @@ public class FrameClient extends JFrame{
     factory = new BuilderFactory();
     director = new UIDirector(factory.getBuilder(type));
     
-  }
-
-  FrameClient(int i, int i0, String ventana_de_prueba, int i1, int i2) {
-    throw new UnsupportedOperationException("Not yet implemented");
   }
   
 }

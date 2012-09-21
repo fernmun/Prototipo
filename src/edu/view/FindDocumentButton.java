@@ -4,14 +4,19 @@
  */
 package edu.view;
 
+import edu.api.CommandInterface;
+
 /**
  *
  * @author lmparra
  */
-public class Start {
-  
-  public static void main(String args[]) {
-    FrameClient frame = new FrameClient(200, 300, "Ventana de prueba", 800, 200, "algo");
+public class FindDocumentButton implements CommandInterface{
+
+  @Override
+  public void processEvent() {
+    
+    
+    
   }
   
 }
