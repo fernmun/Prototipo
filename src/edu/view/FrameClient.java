@@ -31,7 +31,7 @@ public class FrameClient extends JFrame{
   private TabsClient tbcTabs;
   private FindDocumentButton btnFindDocument;
   private JLabel lblUserName, lblUser, lblUserRoll, lblUserImage;
-  private JPanel pnlUserProfile, pnlUserText, pnlContent;
+  private JPanel pnlUserProfile, pnlUserText, pnlFrame, pnlContent;
           
   public FrameClient(int width, int height, String title, int posX, int posY, String type) {
     // Creación de componentes
@@ -71,12 +71,18 @@ public class FrameClient extends JFrame{
     tbcTabs.addTab("Enviar", new JPanel());
     tbcTabs.addTab("Configuración", new JPanel());
 
-    
     pnlContent = new JPanel(new BorderLayout(20, 20));
     pnlContent.add(pnlUserProfile, BorderLayout.NORTH);
     pnlContent.add(tbcTabs, BorderLayout.CENTER);
     
-    this.add(pnlContent);
+    pnlFrame = new JPanel(new BorderLayout(20, 20));
+    pnlFrame.add(pnlContent, BorderLayout.CENTER);
+    pnlFrame.add(new JPanel(), BorderLayout.WEST);
+    pnlFrame.add(new JPanel(), BorderLayout.EAST);
+    pnlFrame.add(new JPanel(), BorderLayout.NORTH);
+    pnlFrame.add(new JPanel(), BorderLayout.SOUTH);
+    
+    this.add(pnlFrame);
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
