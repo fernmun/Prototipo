@@ -31,21 +31,18 @@ public class SendUIBuilder extends UIBuilder{
         JPanel pnlFormFields = new JPanel(new SpringLayout());
         
         
-        pnlFormFields.add(new JLabel("Documento firmado:"));
+        pnlFormFields.add(new JLabel("Documento firmado:", JLabel.TRAILING));
         pnlFormFields.add(new FindDocumentButton("Buscar documento"));
         
-        pnlFormFields.add(new JLabel("Destinatario:"));
-        pnlFormFields.add(new FindUserButton("Escoger Usuario:"));
+        pnlFormFields.add(new JLabel("Destinatario:", JLabel.TRAILING));
+        pnlFormFields.add(new FindUserButton("Escoger Usuario"));
         
         txtMessage = new JTextArea();
         JScrollPane jspMessage = new JScrollPane(txtMessage);
-        pnlFormFields.add(new JLabel("Mensaje:"));
+        pnlFormFields.add(new JLabel("Mensaje:", JLabel.TRAILING));
         pnlFormFields.add(jspMessage);
         
-        SpringUtilities.makeCompactGrid(pnlFormFields,
-                                        3, 2, //rows, cols
-                                        6, 6,        //initX, initY
-                                        6, 6);       //xPad, yPad
+        SpringUtilities.makeCompactGrid(pnlFormFields, 3, 2, 0, 0, 10, 10);
         
         
         
