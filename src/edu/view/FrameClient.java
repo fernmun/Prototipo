@@ -4,6 +4,7 @@
  */
 package edu.view;
 
+import edu.api.UIBuilder;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -49,7 +50,7 @@ public class FrameClient extends JFrame{
     lblUserRoll = new JLabel("Perfil: ");
     ImageIcon icon = null;
     try {
-        icon = new ImageIcon( new ImageIcon(new URL("http://static.elespectador.co/files/imagecache/560x373/imagenprincipal/591698ec135b7c7f1bd03348d65a7c28.jpg")).getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon( new ImageIcon(new URL("http://static.elespectador.co/files/imagecache/560x373/imagenprincipal/591698ec135b7c7f1bd03348d65a7c28.jpg")).getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
     } catch (MalformedURLException ex) {
         Logger.getLogger(FrameClient.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -68,7 +69,13 @@ public class FrameClient extends JFrame{
     tbcTabs = new TabsClient();
     tbcTabs.setTabPlacement(JTabbedPane.TOP);
     tbcTabs.addTab("Firmar", new JPanel());
-    tbcTabs.addTab("Enviar", new JPanel());
+    UIBuilder sendBuilder = new SendUIBuilder();
+    
+    director = new UIDirector(sendBuilder);
+    director.build();
+    
+    JPanel pnlSend = sendBuilder.getPanel();
+    tbcTabs.addTab("Enviar",pnlSend );
     tbcTabs.addTab("Configuración", new JPanel());
 
     pnlContent = new JPanel(new BorderLayout(20, 20));

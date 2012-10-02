@@ -5,12 +5,17 @@
 package edu.view;
 
 import edu.api.CommandInterface;
+import javax.swing.JButton;
 
 /**
  *
  * @author lmparra
  */
-public class FindDocumentButton implements CommandInterface{
+public class FindDocumentButton extends JButton implements CommandInterface{
+
+    FindDocumentButton(String text) {
+        super(text);
+    }
 
   @Override
   public void processEvent() {

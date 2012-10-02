@@ -11,7 +11,7 @@ package edu.view;
 public class Start {
   
   public static void main(String args[]) {
-    FrameClient frame = new FrameClient(800, 600, "Ventana de prueba", 200, 200, "algo");
+    FrameClient frame = new FrameClient(800, 600, "Ventana de prueba", 200, 50, "algo");
   }
   
 }
