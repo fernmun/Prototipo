@@ -11,10 +11,10 @@ import javax.swing.JButton;
  *
  * @author DavidCamilo
  */
-public class FindUserButton extends JButton implements CommandInterface{
+public class SignSendButton extends JButton implements CommandInterface{
 
-    FindUserButton(String text) {
-        super (text);
+    SignSendButton(String text) {
+        super(text);
     }
 
     @Override

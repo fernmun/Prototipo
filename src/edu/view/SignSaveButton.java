@@ -11,15 +11,14 @@ import javax.swing.JButton;
  *
  * @author DavidCamilo
  */
-public class FindUserButton extends JButton implements CommandInterface{
+public class SignSaveButton extends JButton implements CommandInterface{
 
-    FindUserButton(String text) {
-        super (text);
+    SignSaveButton(String text) {
+        super(text);
     }
 
     @Override
     public void processEvent() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

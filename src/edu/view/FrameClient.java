@@ -68,7 +68,16 @@ public class FrameClient extends JFrame{
     //Tabs
     tbcTabs = new TabsClient();
     tbcTabs.setTabPlacement(JTabbedPane.TOP);
-    tbcTabs.addTab("Firmar", new JPanel());
+    
+    
+    
+    UIBuilder SignBuilder = new SignUIBilder();
+    
+    director = new UIDirector(SignBuilder);
+    director.build();
+    
+    JPanel pnlSign = SignBuilder.getPanel();
+    tbcTabs.addTab("Firmar", pnlSign);
     UIBuilder sendBuilder = new SendUIBuilder();
     
     director = new UIDirector(sendBuilder);
@@ -76,7 +85,14 @@ public class FrameClient extends JFrame{
     
     JPanel pnlSend = sendBuilder.getPanel();
     tbcTabs.addTab("Enviar",pnlSend );
-    tbcTabs.addTab("Configuración", new JPanel());
+    
+    UIBuilder documentBuilder = new InboxUIBuilder();
+    
+    director = new UIDirector(documentBuilder);
+    director.build();
+    
+    JPanel pnlInbox = documentBuilder.getPanel();
+    tbcTabs.addTab("Documentos", pnlInbox);
 
     pnlContent = new JPanel(new BorderLayout(20, 20));
     pnlContent.add(pnlUserProfile, BorderLayout.NORTH);
