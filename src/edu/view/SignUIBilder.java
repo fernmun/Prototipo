@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -32,13 +33,18 @@ public class SignUIBilder extends UIBuilder{
         JPanel pnlTop = new JPanel(new GridLayout(3, 1, 5, 5));
         JPanel pnlFindDocument = new JPanel(new BorderLayout(10, 0));
         JPanel pnlPass = new JPanel(new BorderLayout(10, 0));
-        JPanel pnlCert = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+//        JPanel pnlCert = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        JPanel pnlCert = new JPanel(new BorderLayout());
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         
         JLabel lblDocument = new JLabel("Documento a Firmar");
         JButton btnDocument = new FindDocumentButton("Buscar Documento");
+        
+        JPanel pnlDocument = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        pnlDocument.add(btnDocument);
+        
         pnlFindDocument.add(lblDocument, BorderLayout.WEST);
-        pnlFindDocument.add(btnDocument, BorderLayout.EAST);
+        pnlFindDocument.add(pnlDocument, BorderLayout.EAST);
         
         JLabel lblPass = new JLabel("Parafrase:");
         txtPass = new JPasswordField();
@@ -47,8 +53,10 @@ public class SignUIBilder extends UIBuilder{
         
         JLabel lblCert = new JLabel("Seseleccionar certificado para firmar");
         JButton bntCert = new CertRequestButton("Solicitar certificado");
-        pnlCert.add(lblCert);
-        pnlCert.add(bntCert);
+        JPanel pnlCertButton = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        pnlCertButton.add(bntCert);
+        pnlCert.add(lblCert, BorderLayout.WEST);
+        pnlCert.add(pnlCertButton, BorderLayout.EAST);
         
         pnlTop.add(pnlFindDocument);
         pnlTop.add(pnlPass);
@@ -56,6 +64,8 @@ public class SignUIBilder extends UIBuilder{
         
         String[] columnNames = {"Nombre", "Fecha"};
         Object[][] data = {
+            {"Certificado 1", "1 Ago/2012"},
+            {"Certificado 1", "1 Ago/2012"},
             {"Certificado 1", "1 Ago/2012"},
             {"Certificado 1", "1 Ago/2012"},
             {"Certificado 1", "1 Ago/2012"},
@@ -69,8 +79,10 @@ public class SignUIBilder extends UIBuilder{
         pnlButtons.add(btnSignSave);
         pnlButtons.add(btnSignSend);
         
+        JScrollPane jspCertList = new JScrollPane(tblCertList);
+        
         pnlForm.add(pnlTop,BorderLayout.NORTH);
-        pnlForm.add(tblCertList,BorderLayout.CENTER);
+        pnlForm.add(jspCertList,BorderLayout.CENTER);
         pnlForm.add(pnlButtons,BorderLayout.SOUTH);
         
         panelUI.add(new JPanel(), BorderLayout.NORTH);
