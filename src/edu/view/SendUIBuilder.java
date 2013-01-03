@@ -5,6 +5,7 @@
 package edu.view;
 
 import edu.api.UIBuilder;
+import edu.logic.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.BoxLayout;
@@ -24,6 +25,10 @@ public class SendUIBuilder extends UIBuilder{
     
     private JTextArea txtMessage;
     
+    public SendUIBuilder(Mediator mediator){
+        super(mediator);
+    } 
+    
     @Override
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
@@ -32,7 +37,7 @@ public class SendUIBuilder extends UIBuilder{
         
         
         pnlFormFields.add(new JLabel("Documento firmado:", JLabel.TRAILING));
-        pnlFormFields.add(new FindDocumentButton("Buscar documento"));
+        pnlFormFields.add(new FindDocumentButton("Buscar documento", mediatorUI));
         
         pnlFormFields.add(new JLabel("Destinatario:", JLabel.TRAILING));
         pnlFormFields.add(new FindUserButton("Escoger Usuario"));

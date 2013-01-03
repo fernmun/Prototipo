@@ -5,6 +5,8 @@
 package edu.view;
 
 import edu.api.UIBuilder;
+import edu.logic.ButtonHandler;
+import edu.logic.Mediator;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -24,11 +26,18 @@ public class SignUIBilder extends UIBuilder{
 
     private JPasswordField txtPass;
     private JTable tblCertList;
+    private ButtonHandler buttonHandler;
+
+    public SignUIBilder (Mediator mediator){
+        super(mediator);
+    } 
     
     @Override
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
 
+        buttonHandler = new ButtonHandler();
+        
         JPanel pnlForm = new JPanel(new BorderLayout(10,10));
         JPanel pnlTop = new JPanel(new GridLayout(3, 1, 5, 5));
         JPanel pnlFindDocument = new JPanel(new BorderLayout(10, 0));
@@ -38,7 +47,8 @@ public class SignUIBilder extends UIBuilder{
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         
         JLabel lblDocument = new JLabel("Documento a Firmar");
-        JButton btnDocument = new FindDocumentButton("Buscar Documento");
+        JButton btnDocument = new FindDocumentButton("Buscar Documento", mediatorUI);
+        btnDocument.addActionListener(buttonHandler);
         
         JPanel pnlDocument = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlDocument.add(btnDocument);
@@ -64,18 +74,20 @@ public class SignUIBilder extends UIBuilder{
         
         String[] columnNames = {"Nombre", "Fecha"};
         Object[][] data = {
-            {"Certificado 1", "1 Ago/2012"},
-            {"Certificado 1", "1 Ago/2012"},
-            {"Certificado 1", "1 Ago/2012"},
-            {"Certificado 1", "1 Ago/2012"},
-            {"Certificado 1", "1 Ago/2012"},
-            {"Certificado 1", "1 Ago/2012"}
+//            {"Certificado 1", "1 Ago/2012"},
+//            {"Certificado 1", "1 Ago/2012"},
+//            {"Certificado 1", "1 Ago/2012"},
+//            {"Certificado 1", "1 Ago/2012"},
+//            {"Certificado 1", "1 Ago/2012"},
+//            {"Certificado 1", "1 Ago/2012"}
         };
         
         tblCertList = new JTable(data, columnNames);
         
-        JButton btnSignSave = new SignSaveButton("Firmar y Guardar");
-        JButton btnSignSend = new SignSendButton("Firmar y Enviar");
+        JButton btnSignSave = new SignSaveButton("Firmar y Guardar", mediatorUI);
+        btnSignSave.addActionListener(buttonHandler);
+        JButton btnSignSend = new SignSendButton("Firmar y Enviar",mediatorUI);
+        btnSignSend.addActionListener(buttonHandler);
         pnlButtons.add(btnSignSave);
         pnlButtons.add(btnSignSend);
         

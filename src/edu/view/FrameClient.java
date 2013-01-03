@@ -5,6 +5,8 @@
 package edu.view;
 
 import edu.api.UIBuilder;
+import edu.logic.ButtonHandler;
+import edu.logic.Mediator;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -33,6 +35,7 @@ public class FrameClient extends JFrame{
   private FindDocumentButton btnFindDocument;
   private JLabel lblUserName, lblUser, lblUserRoll, lblUserImage;
   private JPanel pnlUserProfile, pnlUserText, pnlFrame, pnlContent;
+  private Mediator mediator = new Mediator();
           
   public FrameClient(int width, int height, String title, int posX, int posY, String type) {
     // Creación de componentes
@@ -41,6 +44,7 @@ public class FrameClient extends JFrame{
     // Set all needed properties
     this.setBounds(posX, posY, width, height);
     this.setTitle(title);
+    mediator.registerFrameClient(this);
 //    factory = new BuilderFactory();
 //    director = new UIDirector(factory.getBuilder(type));
      
@@ -71,14 +75,14 @@ public class FrameClient extends JFrame{
     
     
     
-    UIBuilder SignBuilder = new SignUIBilder();
+    UIBuilder SignBuilder = new SignUIBilder(mediator);
     
     director = new UIDirector(SignBuilder);
     director.build();
     
     JPanel pnlSign = SignBuilder.getPanel();
     tbcTabs.addTab("Firmar", pnlSign);
-    UIBuilder sendBuilder = new SendUIBuilder();
+    UIBuilder sendBuilder = new SendUIBuilder(mediator);
     
     director = new UIDirector(sendBuilder);
     director.build();
@@ -86,7 +90,7 @@ public class FrameClient extends JFrame{
     JPanel pnlSend = sendBuilder.getPanel();
     tbcTabs.addTab("Enviar",pnlSend );
     
-    UIBuilder documentBuilder = new InboxUIBuilder();
+    UIBuilder documentBuilder = new InboxUIBuilder(mediator);
     
     director = new UIDirector(documentBuilder);
     director.build();

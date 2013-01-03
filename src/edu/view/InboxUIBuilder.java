@@ -5,6 +5,7 @@
 package edu.view;
 
 import edu.api.UIBuilder;
+import edu.logic.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -25,6 +26,10 @@ public class InboxUIBuilder extends UIBuilder{
     JTabbedPane jtpDocuments;
     JLabel lblInbox, lblReadbox;
     JTable tblInbox, tblReadbox;
+
+    public InboxUIBuilder(Mediator mediator){
+        super(mediator);
+    } 
     
     @Override
     public void addUIControls() {

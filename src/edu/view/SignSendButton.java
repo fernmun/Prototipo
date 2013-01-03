@@ -5,6 +5,7 @@
 package edu.view;
 
 import edu.api.CommandInterface;
+import edu.logic.Mediator;
 import javax.swing.JButton;
 
 /**
@@ -13,13 +14,16 @@ import javax.swing.JButton;
  */
 public class SignSendButton extends JButton implements CommandInterface{
 
-    SignSendButton(String text) {
+    private Mediator mediator;
+    
+    SignSendButton(String text, Mediator m) {
         super(text);
+        mediator = m;
     }
 
     @Override
     public void processEvent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        mediator.signSendDocument();
     }
     
 }

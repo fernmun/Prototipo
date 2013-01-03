@@ -5,6 +5,7 @@
 package edu.view;
 
 import edu.api.CommandInterface;
+import edu.logic.Mediator;
 import javax.swing.JButton;
 
 /**
@@ -13,15 +14,16 @@ import javax.swing.JButton;
  */
 public class FindDocumentButton extends JButton implements CommandInterface{
 
-    FindDocumentButton(String text) {
+    Mediator mediator;
+
+    FindDocumentButton(String text, Mediator m) {
         super(text);
+        mediator = m;
     }
 
-  @Override
-  public void processEvent() {
-    
-    
-    
-  }
+    @Override
+    public void processEvent() {
+        mediator.findDocument();
+    }
   
 }

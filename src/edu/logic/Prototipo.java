@@ -27,12 +27,12 @@ public class Prototipo {
    */
   public static void main(String[] args) throws Exception {
     // TODO code application logic here
-      CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+//      CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
 
-        FileInputStream fis = new FileInputStream("signedcert.pem");
+//        FileInputStream fis = new FileInputStream("signedcert.pem");
 
-        Certificate cert = certFactory.generateCertificate(fis);
-        fis.close();
+//        Certificate cert = certFactory.generateCertificate(fis);
+//        fis.close();
         
 //        System.out.println(cert);
         
@@ -46,11 +46,12 @@ public class Prototipo {
 //        System.out.println(certificate.getPublicKey());
 //        System.out.println(pair.getPublic());
         KeyStoreTools kstPrueba = new KeyStoreTools("ksPrueba", "password");
+        kstPrueba.testKeyStore(null);
 //        kstPrueba.addKey("testkey", pair.getPrivate(), "password", new Certificate[]{certificate});
 //        kstPrueba.addCertificate("testkey", cert, "password");
 //        keyTools.generateCSR("CN=Test, L=London, ST=Stale ,C=GB, O=Test",pair.getPrivate(),pair.getPublic(), "test.csr");
 //        Certificate cerGoogle = kstPrueba.getCertificate("google");
-        kstPrueba.testKeyStore(cert);
+//        kstPrueba.testKeyStore(cert);
 //        System.out.println(cerGoogle);
   }
 }

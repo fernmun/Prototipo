@@ -5,6 +5,7 @@
 package edu.view;
 
 import edu.api.CommandInterface;
+import edu.logic.Mediator;
 import javax.swing.JButton;
 
 /**
@@ -13,12 +14,16 @@ import javax.swing.JButton;
  */
 public class SignSaveButton extends JButton implements CommandInterface{
 
-    SignSaveButton(String text) {
+    private Mediator mediator;
+    
+    SignSaveButton(String text, Mediator m) {
         super(text);
+        mediator = m;
     }
 
     @Override
     public void processEvent() {
+        mediator.signDocument();
     }
     
 }
