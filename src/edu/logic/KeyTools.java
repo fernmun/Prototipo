@@ -95,7 +95,7 @@ public class KeyTools {
         return cert;
     }
     
-    public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
+   public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
         // generate PKCS10 certificate request
         String sigAlg = "SHA1withRSA";
         PKCS10 pkcs10 = new PKCS10(publicKey);
@@ -110,11 +110,38 @@ public class KeyTools {
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(csr);
             pkcs10.print(ps);
-//            byte[] c = bs.toByteArray();
-//            if (ps != null)
-//                ps.close();
-//            if (bs != null)
-//                bs.close();
+        } catch (CertificateException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SignatureException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidKeyException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return csr;
+    }
+    
+    public String generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey){
+        // generate PKCS10 certificate request
+        String sigAlg = "SHA1withRSA";
+        PKCS10 pkcs10 = new PKCS10(publicKey);
+        Signature signature;
+        String csr = "";
+        try {
+            signature = Signature.getInstance(sigAlg);
+            signature.initSign(privateKey);
+            // common, orgUnit, org, locality, state, country
+            X500Name x500Name = new X500Name(DN);
+            pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(bs);
+            pkcs10.print(ps);
+            csr = bs.toString();
         } catch (CertificateException ex) {
             Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SignatureException ex) {
