@@ -63,6 +63,7 @@ public class SignUIBilder extends UIBuilder{
         
         JLabel lblCert = new JLabel("Seseleccionar certificado para firmar");
         JButton bntCert = new CertRequestButton("Solicitar certificado");
+        bntCert.addActionListener(buttonHandler);
         JPanel pnlCertButton = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlCertButton.add(bntCert);
         pnlCert.add(lblCert, BorderLayout.WEST);
