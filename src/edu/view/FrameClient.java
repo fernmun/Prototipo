@@ -5,12 +5,9 @@
 package edu.view;
 
 import edu.api.UIBuilder;
-import edu.logic.ButtonHandler;
 import edu.logic.Mediator;
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -29,10 +26,8 @@ public class FrameClient extends JFrame{
   
   private int width, height, posX, posY;
   private String title;
-  private BuilderFactory factory;
   private UIDirector director;
   private TabsClient tbcTabs;
-  private FindDocumentButton btnFindDocument;
   private JLabel lblUserName, lblUser, lblUserRoll, lblUserImage;
   private JPanel pnlUserProfile, pnlUserText, pnlFrame, pnlContent;
   private Mediator mediator = new Mediator();
@@ -42,6 +37,10 @@ public class FrameClient extends JFrame{
 ////    btnFindDocument = new FindDocumentButton();
     
     // Set all needed properties
+    this.posX = posX;
+    this.posY = posY;
+    this.title = title;
+    
     this.setBounds(posX, posY, width, height);
     this.setTitle(title);
     mediator.registerFrameClient(this);
