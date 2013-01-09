@@ -64,7 +64,7 @@ public class Mediator {
     }
     
     public boolean sendDocument() throws Exception{
-        properties = new PropertiesTool("web-services");
+        properties = new PropertiesTool("web-services.properties");
         
         fileName = properties.getProperty("ws.up_file");
         directory = properties.getProperty("ws.up_directory");
