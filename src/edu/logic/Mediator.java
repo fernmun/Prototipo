@@ -5,24 +5,37 @@
 package edu.logic;
 
 import edu.view.FrameClient;
+import edu.ws.FileServer;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Vector;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Service;
+import javax.xml.ws.soap.SOAPBinding;
 /**
  *
  * @author DavidCamilo
  */
 public class Mediator {
     
-    
     private FrameClient frameClient;
     private File documentToSign;
+    private Document documentSigned;
     private Signer signer;
     private ZipTools zipTools;
-    private String signedPack;
+    private String signedPack, fileName, directory, status;
+    private InputStream inputStream;
+    private URL url;
+    private QName qName;
+    private Service service;
+    private FileServer fileServer;
+    private BindingProvider bindingProvider;
+    private SOAPBinding soapBinding;
+    private PropertiesTool properties;
     
     public void registerFrameClient(FrameClient frame){
         frameClient = frame;
@@ -50,11 +63,30 @@ public class Mediator {
         return !signedPack.isEmpty();
     }
     
-    public boolean sendDocument(){
+    public boolean sendDocument() throws Exception{
+        properties = new PropertiesTool("web-services");
+        
+        fileName = properties.getProperty("ws.up_file");
+        directory = properties.getProperty("ws.up_directory");
+        
+        url = new URL(properties.getProperty("ws.file_request"));
+        qName = new QName(properties.getProperty("ws.file_request.qname"), properties.getProperty("ws.file_request.service"));
+        service = Service.create(url, qName);
+        fileServer = service.getPort(FileServer.class);
+        
+        documentSigned = new Document(fileName, directory);
+        
+        //Enable MTOM in client
+        bindingProvider = (BindingProvider) fileServer;
+        soapBinding = (SOAPBinding) bindingProvider.getBinding();
+        soapBinding.setMTOMEnabled(true);
+        
+        status = fileServer.uploadFile(documentSigned.readFile());
+        
         return false;
     }
     
-    public boolean signSendDocument(){
+    public boolean signSendDocument() throws Exception{
         if(signDocument()){
             return sendDocument();
         }

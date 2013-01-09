@@ -6,6 +6,8 @@ package edu.view;
 
 import edu.api.CommandInterface;
 import edu.logic.Mediator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
@@ -23,7 +25,11 @@ public class SignSendButton extends JButton implements CommandInterface{
 
     @Override
     public void processEvent() {
-        mediator.signSendDocument();
+        try {
+            mediator.signSendDocument();
+        } catch (Exception ex) {
+            Logger.getLogger(SignSendButton.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
