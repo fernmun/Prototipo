@@ -6,6 +6,7 @@ package edu.view;
 
 import edu.api.UIBuilder;
 import edu.logic.Mediator;
+import edu.logic.User;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.net.MalformedURLException;
@@ -31,8 +32,9 @@ public class FrameClient extends JFrame{
   private JLabel lblUserName, lblUser, lblUserRoll, lblUserImage;
   private JPanel pnlUserProfile, pnlUserText, pnlFrame, pnlContent;
   private Mediator mediator = new Mediator();
+  private User user;
           
-  public FrameClient(int width, int height, String title, int posX, int posY, String type) {
+  public FrameClient(int width, int height, String title, int posX, int posY, User user) {
     // Creación de componentes
 ////    btnFindDocument = new FindDocumentButton();
     
@@ -40,6 +42,7 @@ public class FrameClient extends JFrame{
     this.posX = posX;
     this.posY = posY;
     this.title = title;
+    this.user = user;
     
     this.setBounds(posX, posY, width, height);
     this.setTitle(title);
@@ -48,9 +51,9 @@ public class FrameClient extends JFrame{
 //    director = new UIDirector(factory.getBuilder(type));
      
     //User Profile
-    lblUser = new JLabel("Usuario: ");
-    lblUserName = new JLabel("Nombre: ");
-    lblUserRoll = new JLabel("Perfil: ");
+    lblUser = new JLabel("Usuario: "+user.getUserName());
+    lblUserName = new JLabel("Nombre: "+user.getFirstName()+" "+user.getLastName());
+    lblUserRoll = new JLabel("Perfil: "+user.getProfileName());
     ImageIcon icon = null;
     try {
         icon = new ImageIcon( new ImageIcon(new URL("http://static.elespectador.co/files/imagecache/560x373/imagenprincipal/591698ec135b7c7f1bd03348d65a7c28.jpg")).getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
