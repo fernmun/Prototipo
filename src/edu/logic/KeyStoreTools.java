@@ -153,7 +153,29 @@ public class KeyStoreTools {
         }
         return bSuccess;
     }
-    
+    public Key getKey(String alias, char[] password){
+        Key pkey = null;
+        try {
+            pkey = ks.getKey(alias, password);
+            
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnrecoverableKeyException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pkey;
+    }
+    public Certificate[] getCertificateChain(String alias){
+        Certificate[] chain = new Certificate[]{};
+        try {
+            chain = ks.getCertificateChain(alias);
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return chain;
+    }
     public void testKeyStore(Certificate cert) throws Exception{
 //        KeyTools keyTools= new KeyTools();
         

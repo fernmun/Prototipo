@@ -9,6 +9,7 @@ import edu.ws.FileServer;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayDeque;
 import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ public class Mediator {
     private FrameClient frameClient;
     private File documentToSign;
     private Document documentSigned;
-    private Signer signer;
+    private FileSigner signer;
     private ZipTools zipTools;
     private String signedPack, fileName, directory, status;
     private InputStream inputStream;
@@ -53,8 +54,8 @@ public class Mediator {
     }
     
     public boolean signDocument(){
-        signer = new Signer();
-        Vector files = signer.sign(documentToSign, null);
+        signer = new FileSigner();
+        ArrayDeque files = signer.sign(documentToSign, null);
         String name = documentToSign.getPath();
         name = name.substring(0, name.lastIndexOf(".")+1)+"zip";
         zipTools = new ZipTools();

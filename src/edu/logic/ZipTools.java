@@ -4,14 +4,13 @@
  */
 package edu.logic;
 
-import java.awt.List;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.util.ArrayDeque;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -20,19 +19,17 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipTools {
  
-    public String compressFiles(Vector<String> files, String zipFile){
+    public String compressFiles(ArrayDeque<String> files, String zipFile){
         byte[] buffer = new byte[1024];
 
         try{
             File tmp = new File(zipFile);
             if(tmp.exists()){
-                zipFile = zipFile.substring(0, zipFile.lastIndexOf("."))+"_1.zip";
+                zipFile = getNewFileName(zipFile);
                 return compressFiles(files, zipFile);
             }
             FileOutputStream fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(fos);
-
-
 
             for(String file : files){
 
@@ -40,8 +37,7 @@ public class ZipTools {
                     ZipEntry ze= new ZipEntry(tmp.getName());
                     zos.putNextEntry(ze);
 
-                    FileInputStream in = 
-                           new FileInputStream(file);
+                    FileInputStream in = new FileInputStream(file);
 
                     int len;
                     while ((len = in.read(buffer)) > 0) {
@@ -62,8 +58,62 @@ public class ZipTools {
         }
     }
     
-    public static void main( String[] args )
-    {
+    public ArrayDeque<File> uncompressFiles(String zipFile, String path){
+        
+        byte[] buffer = new byte[1024];
+        ArrayDeque<File> files = new ArrayDeque<File>();
+        File fPath = new File(path);
+        if(fPath.exists() || fPath.mkdirs()){
+            path = fPath.getAbsolutePath();
+            try{
+                ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+                ZipEntry entrada;
+                while (null != (entrada=zis.getNextEntry()) ){
+
+                    String filePath = path+"/"+entrada.getName();
+                    File fileToSave = new File(filePath);
+                    FileOutputStream fos = new FileOutputStream(fileToSave);
+                    int leido;
+                    while (0<(leido=zis.read(buffer))){
+                       fos.write(buffer,0,leido);
+                    }
+                    fos.close();
+                    zis.closeEntry();
+                    System.out.println(fileToSave.getAbsolutePath());
+                    files.add(fileToSave);
+                }
+            }catch(IOException ex){
+                ex.printStackTrace(); 
+            }
+        }
+        return files;
     }
+    
+    public ArrayDeque<File> uncompressFiles(String zipFile){
+        File file = new File(zipFile);
+        String path = file.getAbsolutePath();
+        path = path.substring(0,path.lastIndexOf("."));
+        return uncompressFiles(zipFile,path);
+    }
+    
+    private String getNewFileName(String actualFileName){
+        String newName;
+        int n = actualFileName.lastIndexOf("_")+1;
+        int ext = actualFileName.lastIndexOf(".");
+        int b = 0;
+        if(n>0){
+            try{b = new Integer(actualFileName.substring(n, ext))+1;}
+            catch(NumberFormatException e){b=-1;}
+        }
+        if(b>0){  
+            newName = actualFileName.substring(0, n)+b+actualFileName.substring(ext);
+        }
+        else{
+            newName = actualFileName.substring(0, ext)+"_1"+actualFileName.substring(ext);
+        }
+        
+        return newName;
+    }
+    
  
 }

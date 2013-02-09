@@ -106,7 +106,8 @@ public class KeyTools {
             signature.initSign(privateKey);
             // common, orgUnit, org, locality, state, country
             X500Name x500Name = new X500Name(DN);
-            pkcs10.encodeAndSign(x500Name, signature);
+            pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
+//            pkcs10.encodeAndSign(x500Name, signature);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(csr);
             pkcs10.print(ps);
@@ -137,7 +138,8 @@ public class KeyTools {
             signature.initSign(privateKey);
             // common, orgUnit, org, locality, state, country
             X500Name x500Name = new X500Name(DN);
-            pkcs10.encodeAndSign(x500Name, signature);
+            pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
+//            pkcs10.encodeAndSign(x500Name, signature);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(bs);
             pkcs10.print(ps);
