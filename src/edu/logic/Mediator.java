@@ -5,7 +5,7 @@
 package edu.logic;
 
 import edu.view.FrameClient;
-import edu.ws.FileServer;
+import edu.api.ws.FileServer;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;

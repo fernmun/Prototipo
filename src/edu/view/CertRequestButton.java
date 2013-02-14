@@ -6,7 +6,7 @@ package edu.view;
 
 import edu.api.CommandInterface;
 import edu.logic.KeyTools;
-import edu.ws.CertificateServer;
+import edu.api.ws.CertificateServer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyPair;
