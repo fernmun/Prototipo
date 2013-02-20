@@ -5,8 +5,6 @@
 package edu.view.login;
 
 import edu.logic.ButtonHandler;
-import edu.view.FindDocumentButton;
-import edu.view.SendButton;
 import edu.view.SpringUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
