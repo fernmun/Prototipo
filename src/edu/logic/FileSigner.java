@@ -101,7 +101,6 @@ public class FileSigner implements edu.api.Signer{
 
             sigfos.close();
 
-
             /* Save the public key in a file */
             byte[] key = pub.getEncoded();
             String pkFile=filePath+"/"+name+"pk";

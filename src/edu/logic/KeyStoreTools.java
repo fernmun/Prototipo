@@ -8,6 +8,8 @@ import java.io.*;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.util.ArrayDeque;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,6 +155,7 @@ public class KeyStoreTools {
         }
         return bSuccess;
     }
+    
     public Key getKey(String alias, char[] password){
         Key pkey = null;
         try {
@@ -176,8 +179,72 @@ public class KeyStoreTools {
         }
         return chain;
     }
+    public String[] getAliasList(){
+        
+        ArrayDeque<String> alias = new ArrayDeque<String>();
+        
+        Enumeration en;
+        try {
+            en = ks.aliases();
+            while (en.hasMoreElements()) {
+                Object object = en.nextElement();
+                alias.add(object.toString());
+            }
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alias.toArray(new String[0]);
+    }
+    public String[] getKeyList(){
+        
+        ArrayDeque<String> alias = new ArrayDeque<String>();
+        
+        Enumeration en;
+        try {
+            en = ks.aliases();
+            while (en.hasMoreElements()) {
+                Object object = en.nextElement();
+                if(ks.isKeyEntry(object.toString()))
+                    alias.add(object.toString());
+            }
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alias.toArray(new String[0]);
+    }
+    public String[] getCertificateList(){
+        
+        ArrayDeque<String> alias = new ArrayDeque<String>();
+        
+        Enumeration en;
+        try {
+            en = ks.aliases();
+            while (en.hasMoreElements()) {
+                Object object = en.nextElement();
+                if(ks.isCertificateEntry(object.toString()))
+                    alias.add(object.toString());
+            }
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return alias.toArray(new String[0]);
+    }
+    
+    public Date getAliasDate(String alias){
+        Date created = null;
+        try {
+            created = ks.getCreationDate(alias);
+        } catch (KeyStoreException ex) {
+            Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return created;
+    }
+    
+    public KeyStore getKeyStore(){
+        return ks;
+    }
+    
     public void testKeyStore(Certificate cert) throws Exception{
-//        KeyTools keyTools= new KeyTools();
         
         Key key = ks.getKey("testkey", "password".toCharArray());
         Certificate[] chain = ks.getCertificateChain("testkey");
@@ -191,7 +258,6 @@ public class KeyStoreTools {
             Object object = en.nextElement();
             System.out.println(object);
         }
-        
         Key pkey = ks.getKey("certificado", "password".toCharArray());
         chain = ks.getCertificateChain("certificado");
         publicKey = chain[0].getPublicKey();

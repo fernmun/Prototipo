@@ -4,11 +4,16 @@
  */
 package edu.logic;
 
+import edu.api.Signer;
+import edu.api.SignerCreator;
 import edu.view.FrameClient;
 import edu.api.ws.FileServer;
+import edu.view.SignUIBilder;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
 import java.util.ArrayDeque;
 import java.util.Vector;
 import javax.swing.JFileChooser;
@@ -26,7 +31,7 @@ public class Mediator {
     private FrameClient frameClient;
     private File documentToSign;
     private Document documentSigned;
-    private FileSigner signer;
+    private Signer signer;
     private ZipTools zipTools;
     private String signedPack, fileName, directory, status;
     private InputStream inputStream;
@@ -37,9 +42,15 @@ public class Mediator {
     private BindingProvider bindingProvider;
     private SOAPBinding soapBinding;
     private PropertiesTool properties;
+    private KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
+    private SignerCreator signerCreator = new ExtFileSignerCreator();
+    private SignUIBilder sBuilder;
     
     public void registerFrameClient(FrameClient frame){
         frameClient = frame;
+    }
+    public void registerSigneUIBuilder(SignUIBilder builder){
+        sBuilder = builder;
     }
     
     public String findDocument(){
@@ -54,14 +65,31 @@ public class Mediator {
     }
     
     public boolean signDocument(){
-        signer = new FileSigner();
-        ArrayDeque files = signer.sign(documentToSign, null);
-        String name = documentToSign.getPath();
-        name = name.substring(0, name.lastIndexOf(".")+1)+"zip";
-        zipTools = new ZipTools();
-        signedPack = zipTools.compressFiles(files, name);
-        JOptionPane.showMessageDialog(frameClient, "Documento Firmado");
-        return !signedPack.isEmpty();
+         String name = documentToSign.getPath();
+        String ext =  name.substring(name.lastIndexOf(".")+1);
+        
+        String alias = sBuilder.getSelectedAlias();
+        PrivateKey pk = (PrivateKey) kst.getKey(alias, sBuilder.getPassword());
+        if(pk == null){
+            JOptionPane.showMessageDialog(frameClient, "Error al firmar, por favor revise su pass");
+            return false;
+        }
+        Certificate[] chain = kst.getCertificateChain(alias);
+        
+        signer = signerCreator.getSigner(ext);
+        
+        File outFile = signer.sign(documentToSign, pk, chain);
+        
+        boolean created = (outFile.length() > 0L);
+        
+        if(created) {
+            JOptionPane.showMessageDialog(frameClient, "Documento Firmado");
+        }
+        else {
+            JOptionPane.showMessageDialog(frameClient, "Error al firmar el documento");
+        }
+        
+        return created;
     }
     
     public boolean sendDocument() throws Exception{

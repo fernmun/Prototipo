@@ -17,6 +17,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayDeque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sun.misc.BASE64Encoder;
 
 /**
  *
@@ -41,6 +42,11 @@ public class FileSignVerifier implements SignVerifier{
             fis.close();
             PublicKey pubKey = cert.getPublicKey();
             
+            BASE64Encoder encoder=new BASE64Encoder();
+            System.out.println("hhhhhhhhhhhh-");
+            System.out.println(cert);
+            String psB64Certificate = encoder.encodeBuffer(cert.getEncoded());
+            System.out.println("hhhhhhhhhhhh-"+psB64Certificate+"-kkkkkkkkkkkkk");
 
             /* input the signature bytes */
             FileInputStream sigfis = new FileInputStream(externalSign);

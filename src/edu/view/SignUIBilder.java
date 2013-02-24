@@ -6,10 +6,14 @@ package edu.view;
 
 import edu.api.UIBuilder;
 import edu.logic.ButtonHandler;
+import edu.logic.KeyStoreTools;
 import edu.logic.Mediator;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.ArrayDeque;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,9 +34,11 @@ public class SignUIBilder extends UIBuilder{
 
     public SignUIBilder (Mediator mediator){
         super(mediator);
+        mediator.registerSigneUIBuilder(this);
     } 
     
     @Override
+    @SuppressWarnings("empty-statement")
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
 
@@ -61,7 +67,7 @@ public class SignUIBilder extends UIBuilder{
         pnlPass.add(lblPass, BorderLayout.WEST);
         pnlPass.add(txtPass, BorderLayout.CENTER);
         
-        JLabel lblCert = new JLabel("Seseleccionar certificado para firmar");
+        JLabel lblCert = new JLabel("Seleccionar llave para firmar");
         JButton bntCert = new CertRequestButton("Solicitar certificado");
         bntCert.addActionListener(buttonHandler);
         JPanel pnlCertButton = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
@@ -74,15 +80,35 @@ public class SignUIBilder extends UIBuilder{
         pnlTop.add(pnlCert);
         
         String[] columnNames = {"Nombre", "Fecha"};
-        Object[][] data = {
-//            {"Certificado 1", "1 Ago/2012"},
-//            {"Certificado 1", "1 Ago/2012"},
-//            {"Certificado 1", "1 Ago/2012"},
-//            {"Certificado 1", "1 Ago/2012"},
-//            {"Certificado 1", "1 Ago/2012"},
-//            {"Certificado 1", "1 Ago/2012"}
-        };
-        
+        ArrayDeque<ArrayDeque> rows = new ArrayDeque<ArrayDeque>();
+        KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
+        String[] aliases = kst.getKeyList();
+        int i = 0;
+        for(String alias:aliases){
+            
+            Certificate[] c = kst.getCertificateChain(alias);
+            if(c[0].getType().equals("X.509")){
+                ArrayDeque row = new ArrayDeque();
+                row.add(alias);
+                row.add(((X509Certificate) c[0]).getNotBefore().toString());
+                rows.add(row);
+                System.out.println(alias + " expires " + ((X509Certificate) c[0]).getNotBefore());
+                i++;
+            }
+        }
+        Object[][] data = new Object[0][0];
+        if(rows.size()>0){
+            data = new Object[rows.size()][rows.getFirst().size()];
+            i=0;
+            for(ArrayDeque deque:rows){
+                int j=0;
+                for(Object item:deque){
+                    data[i][j] = item;
+                    j++;
+                }
+                i++;
+            }
+        }
         tblCertList = new JTable(data, columnNames);
         
         JButton btnSignSave = new SignSaveButton("Firmar y Guardar", mediatorUI);
@@ -105,6 +131,16 @@ public class SignUIBilder extends UIBuilder{
         panelUI.add(pnlForm, BorderLayout.CENTER);
     }
 
+    public String getSelectedAlias(){
+        
+        return tblCertList.getValueAt(tblCertList.getSelectedRow(), 0).toString();
+    }
+    
+    public char[] getPassword(){
+        
+        return txtPass.getPassword();
+    }
+    
     @Override
     public void initialize() {
         System.out.println("Not supported yet.");
