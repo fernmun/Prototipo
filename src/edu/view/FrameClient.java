@@ -30,7 +30,16 @@ public class FrameClient extends JFrame{
   private Mediator mediator = new Mediator();
   private User user;
           
-  public FrameClient(int width, int height, String title, int posX, int posY, User user) {
+    /**
+     *
+     * @param width
+     * @param height
+     * @param title
+     * @param posX
+     * @param posY
+     * @param user
+     */
+    public FrameClient(int width, int height, String title, int posX, int posY, User user) {
     // Creación de componentes
 ////    btnFindDocument = new FindDocumentButton();
     

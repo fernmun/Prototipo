@@ -9,6 +9,9 @@ import javax.swing.JTabbedPane;
  */
 public class TabsClient extends JTabbedPane implements CommandInterface{
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         throw new UnsupportedOperationException("Not supported yet.");

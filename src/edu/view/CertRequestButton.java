@@ -30,6 +30,9 @@ public class CertRequestButton extends JButton implements CommandInterface{
         super(text);
     }
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         try {

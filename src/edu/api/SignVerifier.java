@@ -12,6 +12,18 @@ import java.security.cert.Certificate;
  * @author david
  */
 public interface SignVerifier {
+    /**
+     *
+     * @param file
+     * @param publicCert
+     * @param externalSign
+     * @return
+     */
     public boolean verify(File file, File publicCert, File externalSign);
+    /**
+     *
+     * @param file
+     * @return
+     */
     public boolean verify(File file);
 }

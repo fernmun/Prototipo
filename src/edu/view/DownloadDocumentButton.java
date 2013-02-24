@@ -17,6 +17,9 @@ public class DownloadDocumentButton extends JButton implements CommandInterface{
         super(text);
     }
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         throw new UnsupportedOperationException("Not supported yet.");

@@ -15,17 +15,37 @@ import javax.swing.*;
  */
 
 public abstract class UIBuilder {
-  protected JPanel panelUI;
-  protected Mediator mediatorUI;
+    /**
+     *
+     */
+    protected JPanel panelUI;
+    /**
+     *
+     */
+    protected Mediator mediatorUI;
 
-  public abstract void addUIControls();
-  public abstract void initialize();
+    /**
+     *
+     */
+    public abstract void addUIControls();
+    /**
+     *
+     */
+    public abstract void initialize();
 
-  public JPanel getPanel() {
+    /**
+     *
+     * @return
+     */
+    public JPanel getPanel() {
     return panelUI;
   }
   
-  public UIBuilder(Mediator mediator){
+    /**
+     *
+     * @param mediator
+     */
+    public UIBuilder(Mediator mediator){
       mediatorUI = mediator;
   }
 }

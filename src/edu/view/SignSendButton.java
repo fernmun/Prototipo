@@ -19,6 +19,9 @@ public class SignSendButton extends JButton implements CommandInterface{
         mediator = m;
     }
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         try {

@@ -21,10 +21,17 @@ public class InboxUIBuilder extends UIBuilder{
     JLabel lblInbox, lblReadbox;
     JTable tblInbox, tblReadbox;
 
+    /**
+     *
+     * @param mediator
+     */
     public InboxUIBuilder(Mediator mediator){
         super(mediator);
     } 
     
+    /**
+     *
+     */
     @Override
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
@@ -45,6 +52,9 @@ public class InboxUIBuilder extends UIBuilder{
         panelUI.add(jtpDocuments, BorderLayout.CENTER);
     }
 
+    /**
+     *
+     */
     @Override
     public void initialize() {
         System.out.println("Not supported yet.");

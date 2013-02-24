@@ -9,5 +9,10 @@ package edu.api;
  * @author david
  */
 public interface SignerCreator {
+    /**
+     *
+     * @param s
+     * @return
+     */
     public Signer getSigner(String s);
 }

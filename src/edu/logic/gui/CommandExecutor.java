@@ -14,10 +14,18 @@ public class CommandExecutor {
     
     private String SO;
     
+    /**
+     *
+     * @param SO
+     */
     public CommandExecutor(String SO){
         this.SO = SO;
     }
     
+    /**
+     *
+     * @param command
+     */
     public void executeCommand(String command){
         String s = "";
 

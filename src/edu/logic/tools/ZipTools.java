@@ -19,6 +19,12 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipTools {
  
+    /**
+     *
+     * @param files
+     * @param zipFile
+     * @return
+     */
     public String compressFiles(ArrayDeque<String> files, String zipFile){
         byte[] buffer = new byte[1024];
 
@@ -58,6 +64,12 @@ public class ZipTools {
         }
     }
     
+    /**
+     *
+     * @param zipFile
+     * @param path
+     * @return
+     */
     public ArrayDeque<File> uncompressFiles(String zipFile, String path){
         
         byte[] buffer = new byte[1024];
@@ -89,6 +101,11 @@ public class ZipTools {
         return files;
     }
     
+    /**
+     *
+     * @param zipFile
+     * @return
+     */
     public ArrayDeque<File> uncompressFiles(String zipFile){
         File file = new File(zipFile);
         String path = file.getAbsolutePath();

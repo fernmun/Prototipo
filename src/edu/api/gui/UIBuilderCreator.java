@@ -10,6 +10,11 @@ package edu.api.gui;
  */
 public interface UIBuilderCreator {
   
-  public UIBuilder getBuilder(String object);
+    /**
+     *
+     * @param object
+     * @return
+     */
+    public UIBuilder getBuilder(String object);
   
 }

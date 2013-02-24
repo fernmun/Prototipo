@@ -26,7 +26,12 @@ public class DocumentHandle {
     msjFallido = "No se ha podido crear el archivo";
   } 
   
-  public DocumentHandle(String nombreArchivo, String rutaArchivo) {
+    /**
+     *
+     * @param nombreArchivo
+     * @param rutaArchivo
+     */
+    public DocumentHandle(String nombreArchivo, String rutaArchivo) {
     
     nombre = nombreArchivo;
     ruta = rutaArchivo;

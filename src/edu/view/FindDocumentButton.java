@@ -21,6 +21,9 @@ public class FindDocumentButton extends JButton implements CommandInterface{
         mediator = m;
     }
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         mediator.findDocument();

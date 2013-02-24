@@ -15,14 +15,28 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
 //Service Endpoint Interface
+/**
+ *
+ * @author lmparra
+ */
 @WebService
 @SOAPBinding(style = Style.RPC)
 public interface FileServer{
 
     //download a image from server
+    /**
+     *
+     * @param name
+     * @return
+     */
     @WebMethod byte[] downloadFile(String name);
 
     //update image to server
+    /**
+     *
+     * @param data
+     * @return
+     */
     @WebMethod String uploadFile(byte[] data);
 
 }

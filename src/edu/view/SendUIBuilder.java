@@ -24,10 +24,17 @@ public class SendUIBuilder extends UIBuilder{
     private JScrollPane jspMessage;
     private SendButton btnSend;
     
+    /**
+     *
+     * @param mediator
+     */
     public SendUIBuilder(Mediator mediator){
         super(mediator);
     } 
     
+    /**
+     *
+     */
     @Override
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
@@ -65,6 +72,9 @@ public class SendUIBuilder extends UIBuilder{
         panelUI.add(pnlForm, BorderLayout.CENTER);
     }
 
+    /**
+     *
+     */
     @Override
     public void initialize() {
         System.out.println("Not supported yet.");

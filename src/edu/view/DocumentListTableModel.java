@@ -19,12 +19,23 @@ public class DocumentListTableModel extends AbstractTableModel {
 
 //        public final Object[] longValues = {Boolean.FALSE, "Documento 1", "1 Ago/2012"};
         
-        public DocumentListTableModel(Object[][] data, String[] columnNames){
+        /**
+     *
+     * @param data
+     * @param columnNames
+     */
+    public DocumentListTableModel(Object[][] data, String[] columnNames){
             this.columnNames = columnNames;
             this.data = data;
         }
         
-        public DocumentListTableModel(Object[][] data, String[] columnNames, int[] editableCols){
+        /**
+     *
+     * @param data
+     * @param columnNames
+     * @param editableCols
+     */
+    public DocumentListTableModel(Object[][] data, String[] columnNames, int[] editableCols){
             this.columnNames = columnNames;
             this.data = data;
             this.editableCols = editableCols;

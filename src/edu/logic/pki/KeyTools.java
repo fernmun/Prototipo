@@ -25,6 +25,10 @@ import sun.security.x509.*;
  */
 public class KeyTools {
     
+    /**
+     *
+     * @return
+     */
     public KeyPair generateKeyPair (){
     
         /* Generate a key pair */
@@ -45,6 +49,12 @@ public class KeyTools {
         return pair;
     }
     
+    /**
+     *
+     * @param pair
+     * @param DN
+     * @return
+     */
     public Certificate generateSelfSignedCertificate(KeyPair pair, String DN){
         String algorithm = "SHA1withRSA";
         X509CertImpl cert = null;
@@ -95,7 +105,15 @@ public class KeyTools {
         return cert;
     }
     
-   public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
+    /**
+     *
+     * @param DN
+     * @param privateKey
+     * @param publicKey
+     * @param path
+     * @return
+     */
+    public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
         // generate PKCS10 certificate request
         String sigAlg = "SHA1withRSA";
         PKCS10 pkcs10 = new PKCS10(publicKey);
@@ -127,6 +145,13 @@ public class KeyTools {
         return csr;
     }
     
+    /**
+     *
+     * @param DN
+     * @param privateKey
+     * @param publicKey
+     * @return
+     */
     public String generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey){
         // generate PKCS10 certificate request
         String sigAlg = "SHA1withRSA";

@@ -9,10 +9,17 @@ import edu.api.gui.UIBuilder;
 public class UIDirector {
   private UIBuilder builder;
 
-  public UIDirector(UIBuilder bldr) {
+    /**
+     *
+     * @param bldr
+     */
+    public UIDirector(UIBuilder bldr) {
     builder = bldr;
   }
-  public void build() {
+    /**
+     *
+     */
+    public void build() {
     builder.addUIControls();
     builder.initialize();
   }

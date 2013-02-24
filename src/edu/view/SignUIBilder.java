@@ -27,11 +27,18 @@ public class SignUIBilder extends UIBuilder{
     private JTable tblCertList;
     private ButtonHandler buttonHandler;
 
+    /**
+     *
+     * @param mediator
+     */
     public SignUIBilder (Mediator mediator){
         super(mediator);
         mediator.registerSigneUIBuilder(this);
     } 
     
+    /**
+     *
+     */
     @Override
     @SuppressWarnings("empty-statement")
     public void addUIControls() {
@@ -126,16 +133,27 @@ public class SignUIBilder extends UIBuilder{
         panelUI.add(pnlForm, BorderLayout.CENTER);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSelectedAlias(){
         
         return tblCertList.getValueAt(tblCertList.getSelectedRow(), 0).toString();
     }
     
+    /**
+     *
+     * @return
+     */
     public char[] getPassword(){
         
         return txtPass.getPassword();
     }
     
+    /**
+     *
+     */
     @Override
     public void initialize() {
         System.out.println("Not supported yet.");

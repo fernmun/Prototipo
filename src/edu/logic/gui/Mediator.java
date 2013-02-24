@@ -51,13 +51,25 @@ public class Mediator {
     private SignerCreator signerCreator = new ExtFileSignerCreator();
     private SignUIBilder sBuilder;
     
+    /**
+     *
+     * @param frame
+     */
     public void registerFrameClient(FrameClient frame){
         frameClient = frame;
     }
+    /**
+     *
+     * @param builder
+     */
     public void registerSigneUIBuilder(SignUIBilder builder){
         sBuilder = builder;
     }
     
+    /**
+     *
+     * @return
+     */
     public String findDocument(){
         String strPath = "";
         JFileChooser jcfSelectorArchivo = new JFileChooser();
@@ -69,6 +81,10 @@ public class Mediator {
         return strPath;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean signDocument(){
          String name = documentToSign.getPath();
         String ext =  name.substring(name.lastIndexOf(".")+1);
@@ -97,6 +113,11 @@ public class Mediator {
         return created;
     }
     
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean sendDocument() throws Exception{
         properties = new PropertiesTool("web-services.properties");
         
@@ -120,6 +141,11 @@ public class Mediator {
         return false;
     }
     
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean signSendDocument() throws Exception{
         if(signDocument()){
             return sendDocument();

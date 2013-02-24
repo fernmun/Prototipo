@@ -31,6 +31,7 @@ public class FileSigner implements edu.api.Signer{
     /**
      * 
      * @param file
+     * @param keyToSign 
      * @return 
      */
     public ArrayDeque<String> sign(File file, PrivateKey keyToSign){
@@ -43,6 +44,7 @@ public class FileSigner implements edu.api.Signer{
     /**
      * 
      * @param file
+     * @param keyToSign 
      * @param filePath
      * @return 
      */
@@ -118,6 +120,14 @@ public class FileSigner implements edu.api.Signer{
         return fileNames;
     }
 
+    /**
+     *
+     * @param fileToSign
+     * @param outputFile
+     * @param keyToSign
+     * @param chain
+     * @return
+     */
     @Override
     public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate[] chain) {
         
@@ -187,6 +197,13 @@ public class FileSigner implements edu.api.Signer{
         return null;
     }
 
+    /**
+     *
+     * @param fileToSign
+     * @param keyToSign
+     * @param chain
+     * @return
+     */
     @Override
     public File sign(File fileToSign, PrivateKey keyToSign, Certificate[] chain) {
         String filePath = fileToSign.getParentFile().getPath();

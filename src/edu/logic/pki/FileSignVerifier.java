@@ -30,6 +30,13 @@ public class FileSignVerifier implements SignVerifier{
     private final String provider = "SunRsaSign";
     private final String certType = "X.509";
     
+    /**
+     *
+     * @param file
+     * @param publicCert
+     * @param externalSign
+     * @return
+     */
     public boolean verify(File file, File publicCert, File externalSign) {
         boolean valido=false;
         
@@ -85,6 +92,11 @@ public class FileSignVerifier implements SignVerifier{
         return valido;
     }
     
+    /**
+     *
+     * @param file
+     * @return
+     */
     public boolean verify(File file) {
         ZipTools tools = new ZipTools();
         ArrayDeque<File> files =tools.uncompressFiles(file.getAbsolutePath());

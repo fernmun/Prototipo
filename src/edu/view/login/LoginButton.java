@@ -34,11 +34,19 @@ public class LoginButton extends JButton implements CommandInterface{
     private Service service;
     private UserServer userServer;
     
+    /**
+     *
+     * @param text
+     * @param frame
+     */
     public LoginButton(String text, LoginFrame frame){
         super(text);
         loginFrame = frame;
     }
     
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         

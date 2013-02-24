@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * %W% %E%
+ *
+ * The MIT License (MIT)
  */
 package edu.logic.pki;
 
@@ -16,15 +17,25 @@ import java.util.logging.Logger;
 
 /**
  *
+ * <code>KeyStoreTools</code> Class
+ * 
  * @author dnova
  */
 public class KeyStoreTools {
     
     private KeyStore ks;
     private String strPath;
+    /**
+     *
+     */
     public KeyStoreTools(){
         
     }
+    /**
+     *
+     * @param path
+     * @param password
+     */
     public KeyStoreTools(String path, String password){
         File fileKeyStore = new File(path);
         if(fileKeyStore.exists()){
@@ -70,6 +81,12 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
+    /**
+     *
+     * @param path
+     * @param password
+     * @return
+     */
     public boolean loadKeyStore(String path, String password){
         boolean bSuccess = false;
         
@@ -100,6 +117,13 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
+    /**
+     *
+     * @param alias
+     * @param certificate
+     * @param password
+     * @return
+     */
     public boolean addCertificate(String alias, Certificate certificate, String password){
         boolean bSuccess = false;
         try {
@@ -122,6 +146,11 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
+    /**
+     *
+     * @param alias
+     * @return
+     */
     public Certificate getCertificate(String alias){
         Certificate certificate = null;
         try {
@@ -133,6 +162,14 @@ public class KeyStoreTools {
         return certificate;
     }
     
+    /**
+     *
+     * @param alias
+     * @param key
+     * @param password
+     * @param chain
+     * @return
+     */
     public boolean addKey(String alias, PrivateKey key, String password, Certificate[] chain){
         boolean bSuccess = false;
         try {
@@ -156,6 +193,12 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
+    /**
+     *
+     * @param alias
+     * @param password
+     * @return
+     */
     public Key getKey(String alias, char[] password){
         Key pkey = null;
         try {
@@ -170,6 +213,11 @@ public class KeyStoreTools {
         }
         return pkey;
     }
+    /**
+     *
+     * @param alias
+     * @return
+     */
     public Certificate[] getCertificateChain(String alias){
         Certificate[] chain = new Certificate[]{};
         try {
@@ -179,6 +227,10 @@ public class KeyStoreTools {
         }
         return chain;
     }
+    /**
+     *
+     * @return
+     */
     public String[] getAliasList(){
         
         ArrayDeque<String> alias = new ArrayDeque<String>();
@@ -195,6 +247,10 @@ public class KeyStoreTools {
         }
         return alias.toArray(new String[0]);
     }
+    /**
+     *
+     * @return
+     */
     public String[] getKeyList(){
         
         ArrayDeque<String> alias = new ArrayDeque<String>();
@@ -212,6 +268,10 @@ public class KeyStoreTools {
         }
         return alias.toArray(new String[0]);
     }
+    /**
+     *
+     * @return
+     */
     public String[] getCertificateList(){
         
         ArrayDeque<String> alias = new ArrayDeque<String>();
@@ -230,6 +290,11 @@ public class KeyStoreTools {
         return alias.toArray(new String[0]);
     }
     
+    /**
+     *
+     * @param alias
+     * @return
+     */
     public Date getAliasDate(String alias){
         Date created = null;
         try {
@@ -240,10 +305,19 @@ public class KeyStoreTools {
         return created;
     }
     
+    /**
+     *
+     * @return
+     */
     public KeyStore getKeyStore(){
         return ks;
     }
     
+    /**
+     *
+     * @param cert
+     * @throws Exception
+     */
     public void testKeyStore(Certificate cert) throws Exception{
         
         Key key = ks.getKey("testkey", "password".toCharArray());

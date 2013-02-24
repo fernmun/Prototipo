@@ -13,6 +13,9 @@ public class FindUserButton extends JButton implements CommandInterface{
         super (text);
     }
 
+    /**
+     *
+     */
     @Override
     public void processEvent() {
         throw new UnsupportedOperationException("Not supported yet.");

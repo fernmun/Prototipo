@@ -25,6 +25,14 @@ public class LoginFrame extends JFrame{
     private JTextField txtUser = new JTextField();
     private JPasswordField pssPassword = new JPasswordField();
     
+    /**
+     *
+     * @param width
+     * @param height
+     * @param title
+     * @param posX
+     * @param posY
+     */
     public LoginFrame(int width, int height, String title, int posX, int posY){
         this.setBounds(posX, posY, width, height);
         this.setTitle(title);
@@ -61,10 +69,18 @@ public class LoginFrame extends JFrame{
         
     }
     
+    /**
+     *
+     * @return
+     */
     public String getUser(){
         return txtUser.getText();
     }
     
+    /**
+     *
+     * @return
+     */
     public char[] getPass(){
         return pssPassword.getPassword();
     }

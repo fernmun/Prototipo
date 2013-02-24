@@ -24,6 +24,11 @@ public class PropertiesTool extends Properties{
     
     private InputStream inputStream;
     
+    /**
+     *
+     * @param fileName
+     * @throws IOException
+     */
     public PropertiesTool(String fileName) throws IOException {
         try {
             inputStream = new FileInputStream(fileName);
