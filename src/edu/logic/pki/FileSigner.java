@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.pki;
 
 import edu.logic.tools.ZipTools;
@@ -17,11 +13,11 @@ import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.cert.Certificate;
 import java.util.ArrayDeque;
-import java.util.Vector;
 
 /**
  *
- * @author dnova
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class FileSigner implements edu.api.Signer{
     

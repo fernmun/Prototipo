@@ -1,8 +1,3 @@
-/*
- * %W% %E%
- *
- * The MIT License (MIT)
- */
 package edu.logic.pki;
 
 import java.io.*;
@@ -17,26 +12,39 @@ import java.util.logging.Logger;
 
 /**
  *
- * <code>KeyStoreTools</code> Class
+ * <code>KeyStoreTools</code> Class manage keystore to storage facility for cryptographic
+ * keys and certificates.
+ * <p>
+ * It facilitates use the <code>KeyStore</code> Class of Java
  * 
- * @author dnova
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class KeyStoreTools {
     
     private KeyStore ks;
     private String strPath;
+    
     /**
-     *
+     * 
+     * This constructor allow to initialize the class to create after
+     * many keystores
      */
     public KeyStoreTools(){
         
     }
+    
     /**
      *
+     * This constructor initialize a keystore. If it exists it tries to load the KeyStore
+     * if it doesn't it creates a new KeyStore
+     * 
      * @param path
+     *        {@link String} Path to save the KeyStore
      * @param password
+     *        {@link String} Password to access the KeyStore
      */
-    public KeyStoreTools(String path, String password){
+    public KeyStoreTools(String path, String password){        
         File fileKeyStore = new File(path);
         if(fileKeyStore.exists()){
             loadKeyStore(path, password);
@@ -48,10 +56,16 @@ public class KeyStoreTools {
     }
    
     /**
+     *
+     * Create a new KeyStore setting a path to save it and a 
+     * password to access it.
      * 
      * @param path
+     *        {@link String} Path to save the KeyStore
      * @param password
-     * @return 
+     *        {@link String} Password to access the KeyStore
+     * @return {@link boolean}
+     *          True if it can create the KeyStore or False in another way
      */
     public boolean createKeyStore(String path, String password){
         boolean bSuccess = false;
@@ -83,9 +97,15 @@ public class KeyStoreTools {
     
     /**
      *
+     * Load an existing KeyStore setting a path to save it and a 
+     * password to access it.
+     * 
      * @param path
+     *        {@link String} Path to save the KeyStore
      * @param password
-     * @return
+     *        {@link String} Password to access the KeyStore
+     * @return {@link boolean}
+     *          True if it can create the KeyStore or False in another way
      */
     public boolean loadKeyStore(String path, String password){
         boolean bSuccess = false;
@@ -111,18 +131,22 @@ public class KeyStoreTools {
         } catch (KeyStoreException ex) {
             Logger.getLogger(KeyStoreTools.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
 
-        bSuccess = true;
         return bSuccess;
     }
     
     /**
      *
+     * Add certificate to the last KeyStore loaded.
+     * 
      * @param alias
+     *        {@link String} Unique alias to identify a certificate
      * @param certificate
+     *        {@link Certificate} Certificate to save
      * @param password
-     * @return
+     *        {@link String} Password to access the KeyStore element
+     * @return {@link boolean}
+     *         True if it can add the certificate to the KeyStore or False in another way
      */
     public boolean addCertificate(String alias, Certificate certificate, String password){
         boolean bSuccess = false;
@@ -148,8 +172,13 @@ public class KeyStoreTools {
     
     /**
      *
+     * Allow to get a certificate from the current KeyStore.
+     * 
      * @param alias
-     * @return
+     *        {@link String} Unique alias to identify a certificate
+     *          
+     * @return {@link Certificate} 
+     *         Certificate obtained of current KeyStore
      */
     public Certificate getCertificate(String alias){
         Certificate certificate = null;
@@ -164,13 +193,20 @@ public class KeyStoreTools {
     
     /**
      *
+     * Add a private key to the current KeyStore and a certificate associated to this.
+     * 
      * @param alias
+     *        {@link String} Unique alias to identify the private key
      * @param key
+     *        {@link PrivateKey} The private key to store
      * @param password
+     *        {@link String} Password to access the KeyStore element
      * @param chain
-     * @return
+     *        {@link Certificate} Array of one or more certificates
+     * @return {@link boolean}
+     *         True if it can add the certificate to the KeyStore or False in another way
      */
-    public boolean addKey(String alias, PrivateKey key, String password, Certificate[] chain){
+    public boolean addPrivateKey(String alias, PrivateKey key, String password, Certificate[] chain){
         boolean bSuccess = false;
         try {
             
@@ -193,11 +229,16 @@ public class KeyStoreTools {
         return bSuccess;
     }
     
-    /**
+   /**
      *
+     * Allow to get a key from the current KeyStore.
+     * 
      * @param alias
+     *        {@link String} Unique alias to identify a key
      * @param password
-     * @return
+     *        {@link String} Password to access the KeyStore element        
+     * @return {@link Key} 
+     *         Key obtained of current KeyStore
      */
     public Key getKey(String alias, char[] password){
         Key pkey = null;
@@ -213,10 +254,16 @@ public class KeyStoreTools {
         }
         return pkey;
     }
+    
     /**
      *
+     * Allow to get a certificate chain from the current KeyStore.
+     * 
      * @param alias
-     * @return
+     *        {@link String} Unique alias to identify a certificate
+     *          
+     * @return {@link Certificat[]} 
+     *         Chain of certificates obtained of current KeyStore
      */
     public Certificate[] getCertificateChain(String alias){
         Certificate[] chain = new Certificate[]{};
@@ -227,9 +274,13 @@ public class KeyStoreTools {
         }
         return chain;
     }
+    
     /**
      *
-     * @return
+     * List all certificate aliases and key aliases saved on current KeyStore.
+     * 
+     * @return {@link String}
+     *         Array of aliases
      */
     public String[] getAliasList(){
         
@@ -247,9 +298,13 @@ public class KeyStoreTools {
         }
         return alias.toArray(new String[0]);
     }
+    
     /**
      *
-     * @return
+     * List all key aliases saved on current KeyStore.
+     * 
+     * @return {@link String}
+     *         Array of aliases
      */
     public String[] getKeyList(){
         
@@ -268,9 +323,13 @@ public class KeyStoreTools {
         }
         return alias.toArray(new String[0]);
     }
+    
     /**
      *
-     * @return
+     * List all certificate aliases saved on current KeyStore.
+     * 
+     * @return {@link String}
+     *         Array of aliases
      */
     public String[] getCertificateList(){
         
@@ -292,8 +351,10 @@ public class KeyStoreTools {
     
     /**
      *
-     * @param alias
-     * @return
+     * Get creation date of an alias saved on KeyStore.
+     * 
+     * @return {@link Date}
+     *         Creation date of alias. Return null if alias doesn't exist
      */
     public Date getAliasDate(String alias){
         Date created = null;
@@ -307,7 +368,10 @@ public class KeyStoreTools {
     
     /**
      *
-     * @return
+     * Return current KeyStore.
+     * 
+     * @return {@link KeyStore}
+     *         Current KeyStore
      */
     public KeyStore getKeyStore(){
         return ks;
@@ -339,7 +403,7 @@ public class KeyStoreTools {
 //        System.out.println(publicKey);
 //        System.out.println(pkey);
         
-//        addKey("certificado", (PrivateKey) key, "password", new Certificate[]{cert});
+//        addPrivateKey("certificado", (PrivateKey) key, "password", new Certificate[]{cert});
 //        ks.setCertificateEntry("testkey", cert);
 //        System.out.println(chain[0].getPublicKey());
 //        System.out.println(keyTools.generateCSR("CN=Test, L=London, ST=Stale ,C=GB, O=Test", (PrivateKey)key, publicKey,"test.csr"));

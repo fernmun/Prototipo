@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.pki;
 
 import java.io.ByteArrayOutputStream;
@@ -21,23 +17,33 @@ import sun.security.x509.*;
 
 /**
  *
- * @author dnova
+ * <code>KeyTools</code> Class allow generate keys, self signed certificates 
+ * and CSR (Certificate Signing Request) to handle certificates.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class KeyTools {
     
+    protected String algorithmKey = "RSA", 
+                     algorithmCert = "SHA1withRSA", 
+                     provider = "SunRsaSign";
+    protected int keySize = 2 * 1024;
+    protected long validityCert = 365 * 86400000l;
     /**
      *
-     * @return
+     * Create couple of keys: Public Key and Private Key
+     * 
+     * @return KeyPair
      */
     public KeyPair generateKeyPair (){
     
-        /* Generate a key pair */
         KeyPair pair = null;
         KeyPairGenerator keyGen;
         try {
-            keyGen = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(4*1024, random);
+            keyGen = KeyPairGenerator.getInstance(algorithmKey, provider);
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            keyGen.initialize(keySize, random);
             pair = keyGen.generateKeyPair();
             
         } catch (NoSuchAlgorithmException ex) {
@@ -51,20 +57,22 @@ public class KeyTools {
     
     /**
      *
-     * @param pair
-     * @param DN
-     * @return
+     * Generate X509 self signed certificate
+     * 
+     * @param pair 
+     *        {@link KeyPair} Couple of keys
+     * @param DN 
+     *        {@link String}  Distinguished Name
+     * @return {@link Certificate} Self Signed Certificate
      */
     public Certificate generateSelfSignedCertificate(KeyPair pair, String DN){
-        String algorithm = "SHA1withRSA";
+        
         X509CertImpl cert = null;
-        try {
-            //http://bfo.com/blog/2011/03/08/odds_and_ends_creating_a_new_x_509_certificate.html
-            //http://blog.thilinamb.com/2010/01/how-to-generate-self-signed.html
+        try {            
             PrivateKey privkey = pair.getPrivate();
             X509CertInfo info = new X509CertInfo();
             Date from = new Date();
-            Date to = new Date(from.getTime() + 365 * 86400000l);
+            Date to = new Date(from.getTime() + validityCert);
             CertificateValidity interval = new CertificateValidity(from, to);
             BigInteger sn = new BigInteger(64, new SecureRandom());
             X500Name owner = new X500Name(DN);
@@ -80,14 +88,14 @@ public class KeyTools {
 
             // Sign the cert to identify the algorithm that's used.
             cert = new X509CertImpl(info);
-            cert.sign(privkey, algorithm);
+            cert.sign(privkey, algorithmCert);
             
 
             // Update the algorith, and resign.
             algo = (AlgorithmId)cert.get(X509CertImpl.SIG_ALG);
             info.set(CertificateAlgorithmId.NAME + "." + CertificateAlgorithmId.ALGORITHM, algo);
             cert = new X509CertImpl(info);
-            cert.sign(privkey, algorithm);
+            cert.sign(privkey, algorithmCert);
             
         } catch (IOException ex) {
             Logger.getLogger(KeyTools.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,25 +115,31 @@ public class KeyTools {
     
     /**
      *
+     * Create a file that contains a CSR (Certificate Signing Request) using DN (Distinguished Name) 
+     * and couple keys (Public Key and Private Key)
+     * 
      * @param DN
+     *        {@link String} Distinguished Name
      * @param privateKey
+     *        {@link PrivateKey} User private key
      * @param publicKey
+     *        {@link PublicKey} User pubic key
      * @param path
-     * @return
+     *        {@link String} Path where file is saved
+     * @return File 
+     *         {@link File} with CSR
      */
     public File generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey, String path){
-        // generate PKCS10 certificate request
-        String sigAlg = "SHA1withRSA";
+        
         PKCS10 pkcs10 = new PKCS10(publicKey);
         Signature signature;
         File csr = new File(path);
         try {
-            signature = Signature.getInstance(sigAlg);
+            signature = Signature.getInstance(algorithmCert);
             signature.initSign(privateKey);
-            // common, orgUnit, org, locality, state, country
             X500Name x500Name = new X500Name(DN);
             pkcs10.encodeAndSign(new X500Signer(signature, x500Name));
-//            pkcs10.encodeAndSign(x500Name, signature);
+            //Java 7 patch: pkcs10.encodeAndSign(x500Name, signature);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(csr);
             pkcs10.print(ps);
@@ -147,10 +161,17 @@ public class KeyTools {
     
     /**
      *
+     * Create a file that contains a CSR (Certificate Signing Request) using DN (Distinguished Name) 
+     * and couple keys (Public Key and Private Key)
+     * 
      * @param DN
+     *        {@link String} Distinguished Name
      * @param privateKey
+     *        {@link PrivateKey} User private key
      * @param publicKey
-     * @return
+     *        {@link PublicKey} User pubic key
+     * @return String
+     *         {@link String} Certificate Signing Request
      */
     public String generateCSR(String DN, PrivateKey privateKey, PublicKey publicKey){
         // generate PKCS10 certificate request

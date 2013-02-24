@@ -46,7 +46,7 @@ public class Prototipo {
         
         
         KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
-//        kst.addKey("testpk", pk, "password", chain);
+//        kst.addPrivateKey("testpk", pk, "password", chain);
         
         PrivateKey pk = (PrivateKey) kst.getKey("testpk", "password".toCharArray());
         Certificate[] chain = kst.getCertificateChain("testpk");
@@ -89,7 +89,7 @@ public class Prototipo {
 //        System.out.println(pair.getPublic());
 //        KeyStoreTools kstPrueba = new KeyStoreTools("ksPrueba", "password");
 //        kstPrueba.testKeyStore(null);
-//        kstPrueba.addKey("testkey", pair.getPrivate(), "password", new Certificate[]{certificate});
+//        kstPrueba.addPrivateKey("testkey", pair.getPrivate(), "password", new Certificate[]{certificate});
 //        kstPrueba.addCertificate("testkey", cert, "password");
 //        keyTools.generateCSR("CN=Test, L=London, ST=Stale ,C=GB, O=Test",pair.getPrivate(),pair.getPublic(), "test.csr");
 //        Certificate cerGoogle = kstPrueba.getCertificate("google");
