@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.view;
 
 import edu.api.UIBuilder;
@@ -24,6 +20,9 @@ public class SendUIBuilder extends UIBuilder{
 
     
     private JTextArea txtMessage;
+    private JPanel pnlForm, pnlFormFields, pnlSendButton;
+    private JScrollPane jspMessage;
+    private SendButton btnSend;
     
     public SendUIBuilder(Mediator mediator){
         super(mediator);
@@ -32,8 +31,8 @@ public class SendUIBuilder extends UIBuilder{
     @Override
     public void addUIControls() {
         panelUI = new JPanel(new BorderLayout(20, 20));
-        JPanel pnlForm = new JPanel(new BorderLayout(10, 10));
-        JPanel pnlFormFields = new JPanel(new SpringLayout());
+        pnlForm = new JPanel(new BorderLayout(10, 10));
+        pnlFormFields = new JPanel(new SpringLayout());
         
         
         pnlFormFields.add(new JLabel("Documento firmado:", JLabel.TRAILING));
@@ -43,7 +42,7 @@ public class SendUIBuilder extends UIBuilder{
         pnlFormFields.add(new FindUserButton("Escoger Usuario"));
         
         txtMessage = new JTextArea();
-        JScrollPane jspMessage = new JScrollPane(txtMessage);
+        jspMessage = new JScrollPane(txtMessage);
         pnlFormFields.add(new JLabel("Mensaje:", JLabel.TRAILING));
         pnlFormFields.add(jspMessage);
         
@@ -51,8 +50,8 @@ public class SendUIBuilder extends UIBuilder{
         
         
         
-        JPanel pnlSendButton = new JPanel();
-        SendButton btnSend = new SendButton("Enviar");
+        pnlSendButton = new JPanel();
+        btnSend = new SendButton("Enviar");
         btnSend.setAlignmentX(Component.RIGHT_ALIGNMENT);
         pnlSendButton.add(btnSend);
         

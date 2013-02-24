@@ -1,24 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.view.login;
 
 import edu.api.CommandInterface;
 import edu.logic.User;
 import edu.view.FrameClient;
-import edu.api.ws.CertificateServer;
 import edu.api.ws.UserServer;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
@@ -26,12 +20,19 @@ import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
 /**
- *
+ * <code>LoginButton</code> Class allow extends <code>JButton</code>
+ * functionality to process login event
+ * 
  * @author DavidCamilo
  */
 public class LoginButton extends JButton implements CommandInterface{
 
     private LoginFrame loginFrame;
+    private User user;
+    private URL url;
+    private FrameClient frame;
+    private Service service;
+    private UserServer userServer;
     
     public LoginButton(String text, LoginFrame frame){
         super(text);
@@ -41,15 +42,14 @@ public class LoginButton extends JButton implements CommandInterface{
     @Override
     public void processEvent() {
         
-        User user = null;
+        user = null;
         
-        URL url;
         try {
             url = new URL("http://localhost:9999/ws/user?wsdl");
             QName qname = new QName("http://ws.edu/", "UserServerImplService");
 
-            Service service = Service.create(url, qname);
-            UserServer userServer = service.getPort(UserServer.class);
+            service = Service.create(url, qname);
+            userServer = service.getPort(UserServer.class);
 
             //enable MTOM in client
             BindingProvider bp = (BindingProvider) userServer;
@@ -62,7 +62,7 @@ public class LoginButton extends JButton implements CommandInterface{
             digest.update(pass.getBytes(), 0, pass.length());
             String md5 = new BigInteger(1, digest.digest()).toString(16);
             String[] status = userServer.getUserDataByUserName(loginFrame.getUser(), md5);
-            Hashtable<String, String> fields = new Hashtable<String, String>();
+            HashMap<String, String> fields = new HashMap<String, String>();
             for (int i = 0; i < status.length; i++) {
                 String string = status[i];
                 String[] field = string.split("::");
@@ -85,11 +85,9 @@ public class LoginButton extends JButton implements CommandInterface{
         
         if(user == null){
             JOptionPane.showMessageDialog(loginFrame, "No se reconoce usuario", "Ingresar", JOptionPane.ERROR_MESSAGE);
-//            FrameClient frame = new FrameClient(800, 600, "Ventana de prueba", 200, 50, "algo");
-//            loginFrame.dispose();
         }
         else{
-            FrameClient frame = new FrameClient(800, 600, "Ventana de prueba", 200, 50, user);
+            frame = new FrameClient(800, 600, "Ventana de prueba", 200, 50, user);
             loginFrame.dispose();
         }
     }

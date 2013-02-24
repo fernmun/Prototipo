@@ -9,7 +9,7 @@ package edu.api.ws;
  * @author lmparra
  */
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -20,7 +20,7 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 public interface UserServer{
     //Get User data
-    @WebMethod Hashtable<String, Object> getUserData(int uid, String pass);
+    @WebMethod HashMap<String, Object> getUserData(int uid, String pass);
     @WebMethod String[] getUserDataByUserName(String userName, String pass);
 
 }
