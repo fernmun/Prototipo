@@ -4,8 +4,8 @@
  */
 package edu.view;
 
-import edu.api.CommandInterface;
-import edu.logic.KeyTools;
+import edu.api.gui.CommandInterface;
+import edu.logic.pki.KeyTools;
 import edu.api.ws.CertificateServer;
 import java.net.MalformedURLException;
 import java.net.URL;

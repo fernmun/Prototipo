@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.logic;
+package edu.logic.tools;
 
 import edu.view.SignSendButton;
 import java.io.FileInputStream;

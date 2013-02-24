@@ -4,7 +4,7 @@
  */
 package edu.view;
 
-import edu.api.CommandInterface;
+import edu.api.gui.CommandInterface;
 import javax.swing.JButton;
 
 /**

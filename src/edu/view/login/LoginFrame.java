@@ -4,7 +4,7 @@
  */
 package edu.view.login;
 
-import edu.logic.ButtonHandler;
+import edu.logic.gui.ButtonHandler;
 import edu.view.SpringUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;

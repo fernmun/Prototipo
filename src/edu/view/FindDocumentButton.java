@@ -4,8 +4,8 @@
  */
 package edu.view;
 
-import edu.api.CommandInterface;
-import edu.logic.Mediator;
+import edu.api.gui.CommandInterface;
+import edu.logic.gui.Mediator;
 import javax.swing.JButton;
 
 /**

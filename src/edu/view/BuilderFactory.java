@@ -4,8 +4,8 @@
  */
 package edu.view;
 
-import edu.api.UIBuilder;
-import edu.api.UIBuilderCreator;
+import edu.api.gui.UIBuilder;
+import edu.api.gui.UIBuilderCreator;
 
 /**
  *

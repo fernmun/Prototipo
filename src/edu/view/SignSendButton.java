@@ -1,7 +1,7 @@
 package edu.view;
 
-import edu.api.CommandInterface;
-import edu.logic.Mediator;
+import edu.api.gui.CommandInterface;
+import edu.logic.gui.Mediator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;

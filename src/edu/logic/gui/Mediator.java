@@ -2,12 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.logic;
+package edu.logic.gui;
 
+import edu.logic.tools.DocumentHandle;
+import edu.logic.tools.ZipTools;
+import edu.logic.pki.ExtFileSignerCreator;
+import edu.logic.pki.KeyStoreTools;
 import edu.api.Signer;
 import edu.api.SignerCreator;
 import edu.view.FrameClient;
 import edu.api.ws.FileServer;
+import edu.logic.tools.PropertiesTool;
 import edu.view.SignUIBilder;
 import java.io.File;
 import java.io.InputStream;
@@ -30,7 +35,7 @@ public class Mediator {
     
     private FrameClient frameClient;
     private File documentToSign;
-    private Document documentSigned;
+    private DocumentHandle documentSigned;
     private Signer signer;
     private ZipTools zipTools;
     private String signedPack, fileName, directory, status;
@@ -103,7 +108,7 @@ public class Mediator {
         service = Service.create(url, qName);
         fileServer = service.getPort(FileServer.class);
         
-        documentSigned = new Document(fileName, directory);
+        documentSigned = new DocumentHandle(fileName, directory);
         
         //Enable MTOM in client
         bindingProvider = (BindingProvider) fileServer;

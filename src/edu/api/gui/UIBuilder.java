@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.api;
+package edu.api.gui;
 
-import edu.logic.Mediator;
+import edu.logic.gui.Mediator;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

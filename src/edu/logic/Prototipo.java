@@ -4,10 +4,14 @@
  */
 package edu.logic;
 
+import edu.logic.tools.ZipTools;
+import edu.logic.pki.FileSigner;
+import edu.logic.pki.KeyTools;
+import edu.logic.pki.FileSignVerifier;
 import edu.api.SignVerifier;
 import edu.api.Signer;
-import edu.logic.CommandExecutor;
-import edu.logic.KeyStoreTools;
+import edu.logic.gui.CommandExecutor;
+import edu.logic.pki.KeyStoreTools;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

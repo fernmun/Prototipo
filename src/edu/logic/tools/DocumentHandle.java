@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.logic;
+package edu.logic.tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author lmparra
  */
-public class Document {
+public class DocumentHandle {
     
   private static String nombre, ruta, msjExitoso, msjFallido;
   private byte[] buf, bytes;
@@ -26,7 +26,7 @@ public class Document {
     msjFallido = "No se ha podido crear el archivo";
   } 
   
-  public Document(String nombreArchivo, String rutaArchivo) {
+  public DocumentHandle(String nombreArchivo, String rutaArchivo) {
     
     nombre = nombreArchivo;
     ruta = rutaArchivo;

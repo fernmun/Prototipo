@@ -1,6 +1,6 @@
 package edu.view.login;
 
-import edu.api.CommandInterface;
+import edu.api.gui.CommandInterface;
 import edu.logic.User;
 import edu.view.FrameClient;
 import edu.api.ws.UserServer;

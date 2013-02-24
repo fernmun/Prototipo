@@ -1,7 +1,7 @@
 package edu.view;
 
-import edu.api.UIBuilder;
-import edu.logic.Mediator;
+import edu.api.gui.UIBuilder;
+import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.BoxLayout;
