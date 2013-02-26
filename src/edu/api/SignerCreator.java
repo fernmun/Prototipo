@@ -14,5 +14,5 @@ public interface SignerCreator {
      * @param s
      * @return
      */
-    public Signer getSigner(String s);
+    public SignerInterface getSigner(String s);
 }

@@ -4,7 +4,7 @@
  */
 package edu.logic.pki;
 
-import edu.api.Signer;
+import edu.api.SignerInterface;
 import java.io.File;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -13,7 +13,7 @@ import java.security.cert.Certificate;
  *
  * @author lmparra
  */
-public class PDFSigner implements Signer{
+public class PDFSigner implements SignerInterface{
 
     /**
      *
@@ -24,7 +24,7 @@ public class PDFSigner implements Signer{
      * @return
      */
     @Override
-    public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate[] chain) {
+    public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate certificate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -36,7 +36,7 @@ public class PDFSigner implements Signer{
      * @return
      */
     @Override
-    public File sign(File fileToSign, PrivateKey keyToSign, Certificate[] chain) {
+    public File sign(File fileToSign, PrivateKey keyToSign, Certificate certificate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

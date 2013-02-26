@@ -9,7 +9,7 @@ import edu.logic.pki.FileSigner;
 import edu.logic.pki.KeyTools;
 import edu.logic.pki.FileSignVerifier;
 import edu.api.SignVerifier;
-import edu.api.Signer;
+import edu.api.SignerInterface;
 import edu.logic.gui.CommandExecutor;
 import edu.logic.pki.KeyStoreTools;
 import java.io.File;
@@ -36,7 +36,7 @@ public class Prototipo {
    */
   public static void main(String[] args) throws Exception {
       
-      Signer test = new FileSigner();
+      SignerInterface test = new FileSigner();
       KeyTools keyTools = new KeyTools();
 //        KeyPair pair = keyTools.generateKeyPair();
 //        Certificate certificate = keyTools.generateSelfSignedCertificate(pair, "CN=David Nova, L=Bogotá, ST=Cundinamarca ,C=CO, O=Test");

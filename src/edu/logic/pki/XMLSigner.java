@@ -4,7 +4,7 @@
  */
 package edu.logic.pki;
 
-import edu.api.Signer;
+import edu.api.SignerInterface;
 import java.io.File;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +27,7 @@ import javax.xml.crypto.dsig.spec.TransformParameterSpec;
  *
  * @author david
  */
-public class XMLSigner implements Signer{
+public class XMLSigner implements SignerInterface{
 
     /**
      *
@@ -38,7 +38,7 @@ public class XMLSigner implements Signer{
      * @return
      */
     @Override
-    public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate[] chain) {
+    public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate chain) {
         try{
             // Create a DOM XMLSignatureFactory that will be used to
             // generate the enveloped signature.
@@ -72,7 +72,7 @@ public class XMLSigner implements Signer{
      * @return
      */
     @Override
-    public File sign(File fileToSign, PrivateKey keyToSign, Certificate[] chain) {
+    public File sign(File fileToSign, PrivateKey keyToSign, Certificate certificate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

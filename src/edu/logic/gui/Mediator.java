@@ -8,7 +8,7 @@ import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.ZipTools;
 import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
-import edu.api.Signer;
+import edu.api.SignerInterface;
 import edu.api.SignerCreator;
 import edu.view.FrameClient;
 import edu.api.ws.FileServer;
@@ -36,7 +36,7 @@ public class Mediator {
     private FrameClient frameClient;
     private File documentToSign;
     private DocumentHandle documentSigned;
-    private Signer signer;
+    private SignerInterface signer;
     private ZipTools zipTools;
     private String signedPack, fileName, directory, status;
     private InputStream inputStream;
@@ -99,7 +99,7 @@ public class Mediator {
         
         signer = signerCreator.getSigner(ext);
         
-        File outFile = signer.sign(documentToSign, pk, chain);
+        File outFile = signer.sign(documentToSign, pk, chain[0]);        
         
         boolean created = (outFile.length() > 0L);
         

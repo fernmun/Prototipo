@@ -4,7 +4,7 @@
  */
 package edu.logic.pki;
 
-import edu.api.Signer;
+import edu.api.SignerInterface;
 import edu.api.SignerCreator;
 
 /**
@@ -19,9 +19,9 @@ public class ExtFileSignerCreator implements SignerCreator{
      * @return
      */
     @Override
-    public Signer getSigner(String fileExt) {
+    public SignerInterface getSigner(String fileExt) {
         
-        Signer signer;
+        SignerInterface signer;
         
         if(fileExt.equals("zip")){
             signer = new FileSigner();
