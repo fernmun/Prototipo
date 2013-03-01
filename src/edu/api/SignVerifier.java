@@ -19,25 +19,22 @@ public interface SignVerifier {
      * @param file
      *        {@link File} <code>File</code> to verify
      * @param publicCert
-     *        {@link File} <code>File</code> 
+     *        {@link File} <code>File</code> Public certificate
      * @param externalSign
-     *        {@link File} <code>File</code>
+     *        {@link File} External signature of <code>File</code> signed
      * @return {@link boolean}
-     *         Return true if the signed has validity or false in another way
+     *         Returns true if the signature has validity or false in another way
      */
     public boolean verify(File file, File publicCert, File externalSign);
     /**
      *
-     * Receive a file signed and then verify it
+     * Receive a file signed and then verify it. The file should contain the signature
+     * and the certificate
      * 
      * @param file
      *        {@link File} <code>File</code> to verify
-     * @param publicCert
-     *        {@link File} <code>File</code> 
-     * @param externalSign
-     *        {@link File} <code>File</code>
      * @return {@link boolean}
-     *         Return true if the signed has validity or false in another way
+     *         Returns true if the signature has validity or false in another way
      */
     public boolean verify(File file);
 }

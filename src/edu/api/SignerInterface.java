@@ -15,7 +15,7 @@ public interface SignerInterface {
     /**
      *
      * Sign a <code>File</code> object that receives the private key and certificate. It
-     * generates another <code>File</code> object with digital signature.
+     * generates another <code>File</code> object digitally signed.
      * 
      * @param fileToSign
      *        {@link File} <code>File</code> object to sign with private key and certificate
@@ -33,7 +33,7 @@ public interface SignerInterface {
     /**
      *
      * Sign a <code>File</code> object that receives the private key and certificate. It
-     * generates another <code>File</code> object with digital signature.
+     * generates another <code>File</code> object digitally signed.
      * <p>
      * The name of output file is generated automatically. Resulting name: <i>File Name</i>_signed
      * 

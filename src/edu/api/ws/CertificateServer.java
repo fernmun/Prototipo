@@ -1,38 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.api.ws;
-
-/**
- *
- * @author lmparra
- */
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 
-//Service Endpoint Interface
 /**
  *
- * @author lmparra
+ * This interface represents web services methods needed to download and upload 
+ * digital certificates remotely through MTOM protocol for efficiently sending 
+ * binary data to and from Web services.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 @WebService
 @SOAPBinding(style = Style.RPC)
 public interface CertificateServer{
-    //Get DN (Distinguished Name)
+    
     /**
      *
+     * Get the DN (Distinguished Name) by user
+     * 
      * @param uid
      * @return
      */
     @WebMethod String getDN(String uid);
 
-    //download a digital certificate from server
     /**
      *
+     * Download digital certificate from server
+     * 
      * @param name
      * @return
      */
