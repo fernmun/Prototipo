@@ -1,17 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.api.gui;
 
 /**
  *
- * @author lmparra
+ * <code>CommandInterface</code> interface is an abstraction to implement Command
+ * pattern to handle events of all UI components.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public interface CommandInterface {
   
     /**
      *
+     * Running the code identified by the command object's <i>execute</i> method
+     * 
      */
     public void processEvent();
   

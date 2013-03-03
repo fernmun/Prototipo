@@ -1,18 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.gui;
 
 import edu.api.gui.CommandInterface;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  *
- * @author lmparra
+ * <code>ButtonHandler</code> Class  
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class ButtonHandler implements ActionListener {
 

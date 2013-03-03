@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.pki;
 
 import edu.api.SignerInterface;
@@ -46,18 +42,14 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author david
+ * <code>XMLSigner</code> class is a concrete signer to sign XML files. It implements
+ * all needed methods of <code>{@link SignerInterface}</code> interface.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class XMLSigner implements SignerInterface{
 
-    /**
-     *
-     * @param fileToSign
-     * @param outputFile
-     * @param keyToSign
-     * @param chain
-     * @return
-     */
     @Override
     public File sign(File fileToSign, File outputFile, PrivateKey keyToSign, Certificate certificate) {
         File out = null;
@@ -127,13 +119,6 @@ public class XMLSigner implements SignerInterface{
         return out;    
     }
 
-    /**
-     *
-     * @param fileToSign
-     * @param keyToSign
-     * @param chain
-     * @return
-     */
     @Override
     public File sign(File fileToSign, PrivateKey keyToSign, Certificate certificate) {
         
@@ -143,15 +128,18 @@ public class XMLSigner implements SignerInterface{
         
         return sign(fileToSign, new File(name+"_signed."+ext), keyToSign, certificate);
     }
-    
     /**
      * 
+     * Returns the Signature Method given the key algorithm.
+     * 
      * @param keyAgorithm
-     * @return 
+     *        {@link String} Kind of key algorithm
+     * @return {@link String} Signature method to use
      */
     private String getSignatureMethodString(String keyAgorithm){
-        
+        // Default value
         String method = SignatureMethod.RSA_SHA1;
+        
         if(keyAgorithm.equals("RSA")){
             method = SignatureMethod.RSA_SHA1;
         }

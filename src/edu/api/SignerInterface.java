@@ -6,7 +6,8 @@ import java.security.cert.Certificate;
 
 /**
  *
- * This interface represents an abstraction to sign a file.
+ * This interface represents an abstraction of needed methods required to sign
+ * whatever kind of file through signer concrete class.
  * 
  * @author David Camilo Nova
  * @author Luis Fernando Muñoz

@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * <code>KeyStoreTools</code> Class manage keystore to storage facility for cryptographic
- * keys and certificates.
+ * <code>KeyStoreTools</code> Class manage keystore to storage easily cryptographic
+ * keys and digital certificates.
  * <p>
  * It facilitates use the <code>KeyStore</code> Class of Java
  * 
@@ -57,8 +57,7 @@ public class KeyStoreTools {
    
     /**
      *
-     * Create a new KeyStore setting a path to save it and a 
-     * password to access it.
+     * Create a new KeyStore setting a path to save it and a password to access it.
      * 
      * @param path
      *        {@link String} Path to save the KeyStore

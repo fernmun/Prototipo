@@ -5,8 +5,8 @@ import java.io.File;
 /**
  *
  * This interface represents an abstraction of needed functionalities to verify 
- * a file signed. It has two verification methods where one of this receive the digital
- * certificate and public signature and another receive a file attached signature
+ * a file signed. It has two verification methods where one of this receives the digital
+ * certificate and public signature and another receives a file attached signature
  * and digital certificate.
  * 
  * @author David Camilo Nova

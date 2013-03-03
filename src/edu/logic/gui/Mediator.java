@@ -1,26 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.gui;
 
-import edu.logic.tools.DocumentHandle;
-import edu.logic.tools.ZipTools;
+import edu.api.SignerCreator;
+import edu.api.SignerInterface;
+import edu.api.ws.FileServer;
 import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
-import edu.api.SignerInterface;
-import edu.api.SignerCreator;
-import edu.view.FrameClient;
-import edu.api.ws.FileServer;
+import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.PropertiesTool;
+import edu.logic.tools.ZipTools;
+import edu.view.FrameClient;
 import edu.view.SignUIBilder;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
-import java.util.ArrayDeque;
-import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
@@ -29,7 +23,8 @@ import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class Mediator {
     

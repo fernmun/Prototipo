@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.gui;
 
 import java.io.*;
 
 /**
  *
- * @author dnova
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class CommandExecutor {
     
