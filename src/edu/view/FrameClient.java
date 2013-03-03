@@ -1,8 +1,8 @@
 package edu.view;
 
 import edu.api.gui.UIBuilder;
-import edu.logic.gui.Mediator;
 import edu.logic.User;
+import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.net.MalformedURLException;
@@ -17,7 +17,8 @@ import javax.swing.JTabbedPane;
 
 /**
  *
- * @author lmparra
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class FrameClient extends JFrame{
   

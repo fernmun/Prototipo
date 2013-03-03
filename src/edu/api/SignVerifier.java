@@ -5,7 +5,9 @@ import java.io.File;
 /**
  *
  * This interface represents an abstraction of needed functionalities to verify 
- * a file signed.
+ * a file signed. It has two verification methods where one of this receive the digital
+ * certificate and public signature and another receive a file attached signature
+ * and digital certificate.
  * 
  * @author David Camilo Nova
  * @author Luis Fernando Muñoz
@@ -14,7 +16,7 @@ public interface SignVerifier {
     /**
      *
      * Receive a file signed and then verify it with the public certificate and its 
-     * external sign
+     * external signature.
      * 
      * @param file
      *        {@link File} <code>File</code> to verify
@@ -28,8 +30,8 @@ public interface SignVerifier {
     public boolean verify(File file, File publicCert, File externalSign);
     /**
      *
-     * Receive a file signed and then verify it. The file should contain the signature
-     * and the certificate
+     * Receive a file signed and then verify it. The file must attached the signature
+     * and the digital certificate.
      * 
      * @param file
      *        {@link File} <code>File</code> to verify

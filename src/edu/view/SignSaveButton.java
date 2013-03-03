@@ -6,7 +6,8 @@ import javax.swing.JButton;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class SignSaveButton extends JButton implements CommandInterface{
 

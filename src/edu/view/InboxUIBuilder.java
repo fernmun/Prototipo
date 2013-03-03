@@ -13,7 +13,8 @@ import javax.swing.JTable;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class InboxUIBuilder extends UIBuilder{
 

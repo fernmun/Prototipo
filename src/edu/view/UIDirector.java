@@ -4,7 +4,8 @@ import edu.api.gui.UIBuilder;
 
 /**
  *
- * @author lmparra
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class UIDirector {
   private UIBuilder builder;

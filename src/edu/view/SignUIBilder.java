@@ -2,8 +2,8 @@ package edu.view;
 
 import edu.api.gui.UIBuilder;
 import edu.logic.gui.ButtonHandler;
-import edu.logic.pki.KeyStoreTools;
 import edu.logic.gui.Mediator;
+import edu.logic.pki.KeyStoreTools;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -19,7 +19,8 @@ import javax.swing.JTable;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class SignUIBilder extends UIBuilder{
 

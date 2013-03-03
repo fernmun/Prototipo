@@ -9,7 +9,8 @@ import javax.swing.JButton;
 
 /**
  *
- * @author david
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class DownloadDocumentButton extends JButton implements CommandInterface{
 

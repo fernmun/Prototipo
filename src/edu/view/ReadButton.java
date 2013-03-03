@@ -5,7 +5,8 @@ import javax.swing.JButton;
 
 /**
  *
- * @author david
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class ReadButton extends JButton implements CommandInterface{
 

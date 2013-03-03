@@ -9,7 +9,8 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author david
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class DocumentListTableModel extends AbstractTableModel {
     

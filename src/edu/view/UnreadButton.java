@@ -5,7 +5,10 @@ import javax.swing.JButton;
 
 /**
  *
- * @author david
+ * 
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class UnreadButton extends JButton implements CommandInterface{
 

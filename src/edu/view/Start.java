@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.view;
 
-import edu.logic.User;
 import edu.view.login.LoginFrame;
 import javax.swing.JFrame;
 
 /**
  *
- * @author lmparra
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class Start {
   

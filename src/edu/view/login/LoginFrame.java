@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.view.login;
 
 import edu.logic.gui.ButtonHandler;
@@ -18,7 +14,8 @@ import javax.swing.SpringLayout;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class LoginFrame extends JFrame{
     

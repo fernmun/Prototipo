@@ -4,17 +4,16 @@ import edu.api.gui.UIBuilder;
 import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class SendUIBuilder extends UIBuilder{
 

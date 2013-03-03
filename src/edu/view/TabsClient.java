@@ -5,7 +5,8 @@ import javax.swing.JTabbedPane;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class TabsClient extends JTabbedPane implements CommandInterface{
 

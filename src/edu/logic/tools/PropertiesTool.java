@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic.tools;
 
-import edu.view.SignSendButton;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,19 +9,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author lmparra
  * 
  * The <code>PropertiesTool</code> Class extends <code>Properties</code> to 
  * make easier instance way.
- */
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
+ */ 
 public class PropertiesTool extends Properties{
     
     private InputStream inputStream;
     
     /**
      *
+     * Read a properties file. 
+     * 
      * @param fileName
+     *        {@link String} Properties file name.
      * @throws IOException
      */
     public PropertiesTool(String fileName) throws IOException {
@@ -35,6 +34,7 @@ public class PropertiesTool extends Properties{
             this.load(inputStream);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PropertiesTool.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     

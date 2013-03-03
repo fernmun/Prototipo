@@ -5,7 +5,8 @@ import javax.swing.JButton;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class FindUserButton extends JButton implements CommandInterface{
 

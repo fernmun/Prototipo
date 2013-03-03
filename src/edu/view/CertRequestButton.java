@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.view;
 
 import edu.api.gui.CommandInterface;
-import edu.logic.pki.KeyTools;
 import edu.api.ws.CertificateServer;
+import edu.logic.pki.KeyTools;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyPair;
@@ -22,7 +18,8 @@ import javax.xml.ws.soap.SOAPBinding;
 
 /**
  *
- * @author DavidCamilo
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class CertRequestButton extends JButton implements CommandInterface{
 
