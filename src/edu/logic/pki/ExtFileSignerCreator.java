@@ -29,6 +29,9 @@ public class ExtFileSignerCreator implements SignerCreator{
         else if(fileExt.equals("pdf")){
             signer = new PDFSigner();
         }
+        else if(fileExt.equals("xml") || fileExt.equals("odt")){
+            signer = new XMLSigner();
+        }
         else{
             signer = new FileSigner();
         }

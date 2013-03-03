@@ -101,7 +101,7 @@ public class Mediator {
         
         File outFile = signer.sign(documentToSign, pk, chain[0]);        
         
-        boolean created = (outFile.length() > 0L);
+        boolean created = (outFile != null && outFile.length() > 0L);
         
         if(created) {
             JOptionPane.showMessageDialog(frameClient, "Documento Firmado");
