@@ -1,13 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.api.ws;
-
-/**
- *
- * @author lmparra
- */
 
 import java.util.HashMap;
 import javax.jws.WebMethod;
@@ -18,7 +9,11 @@ import javax.jws.soap.SOAPBinding.Style;
 //Service Endpoint Interface
 /**
  *
- * @author lmparra
+ * <code>UserServer</code> interface is an abstraction of User web service over JAX-WS
+ * to get all information about a specific user.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 @WebService
 @SOAPBinding(style = Style.RPC)

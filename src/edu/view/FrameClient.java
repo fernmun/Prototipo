@@ -83,7 +83,7 @@ public class FrameClient extends JFrame{
     
     
     
-    UIBuilder SignBuilder = new SignUIBilder(mediator);
+    UIBuilder SignBuilder = new SignUIBuilder(mediator);
     
     director = new UIDirector(SignBuilder);
     director.build();

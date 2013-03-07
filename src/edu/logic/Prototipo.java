@@ -1,32 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.logic;
 
-import edu.logic.tools.ZipTools;
-import edu.logic.pki.FileSigner;
-import edu.logic.pki.KeyTools;
-import edu.logic.pki.FileSignVerifier;
 import edu.api.SignVerifier;
 import edu.api.SignerInterface;
-import edu.logic.gui.CommandExecutor;
+import edu.logic.pki.FileSignVerifier;
+import edu.logic.pki.FileSigner;
 import edu.logic.pki.KeyStoreTools;
+import edu.logic.pki.KeyTools;
+import edu.logic.tools.ZipTools;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.security.KeyPair;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 
 /**
  *
- * @author lmparra
+ * Start class to test.
+ * 
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 public class Prototipo {
 

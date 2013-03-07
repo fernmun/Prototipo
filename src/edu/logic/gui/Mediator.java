@@ -7,11 +7,9 @@ import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.PropertiesTool;
-import edu.logic.tools.ZipTools;
 import edu.view.FrameClient;
-import edu.view.SignUIBilder;
+import edu.view.SignUIBuilder;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -23,6 +21,9 @@ import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 /**
  *
+ * <code>Mediator</code> class is a concrete mediator that coordinates communication 
+ * between <i>Colleague</i> objects.
+ * 
  * @author David Camilo Nova
  * @author Luis Fernando Muñoz
  */
@@ -32,9 +33,7 @@ public class Mediator {
     private File documentToSign;
     private DocumentHandle documentSigned;
     private SignerInterface signer;
-    private ZipTools zipTools;
-    private String signedPack, fileName, directory, status;
-    private InputStream inputStream;
+    private String fileName, directory, status;
     private URL url;
     private QName qName;
     private Service service;
@@ -44,26 +43,35 @@ public class Mediator {
     private PropertiesTool properties;
     private KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
     private SignerCreator signerCreator = new ExtFileSignerCreator();
-    private SignUIBilder sBuilder;
+    private SignUIBuilder sBuilder;
     
     /**
      *
+     * Registers frame client of the application to use it.
+     * 
      * @param frame
+     *        {@link FrameClient} Application frame
      */
     public void registerFrameClient(FrameClient frame){
         frameClient = frame;
     }
     /**
      *
+     * Registers signer builder to create the concrete signer depending of kind of
+     * file to sign.
+     * 
      * @param builder
+     *        {@link SignUIBuilder}
      */
-    public void registerSigneUIBuilder(SignUIBilder builder){
+    public void registerSignerUIBuilder(SignUIBuilder builder){
         sBuilder = builder;
     }
     
     /**
      *
-     * @return
+     * Create a <code>JFileChooser</code> to choose the right document to sign.
+     * 
+     * @return {@link String} File document path
      */
     public String findDocument(){
         String strPath = "";

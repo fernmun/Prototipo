@@ -22,7 +22,7 @@ import javax.swing.JTable;
  * @author David Camilo Nova
  * @author Luis Fernando Muñoz
  */
-public class SignUIBilder extends UIBuilder{
+public class SignUIBuilder extends UIBuilder{
 
     private JPasswordField txtPass;
     private JTable tblCertList;
@@ -32,9 +32,9 @@ public class SignUIBilder extends UIBuilder{
      *
      * @param mediator
      */
-    public SignUIBilder (Mediator mediator){
+    public SignUIBuilder (Mediator mediator){
         super(mediator);
-        mediator.registerSigneUIBuilder(this);
+        mediator.registerSignerUIBuilder(this);
     } 
     
     /**
