@@ -1,7 +1,7 @@
 package edu.view;
 
 import edu.api.gui.CommandInterface;
-import edu.api.ws.CertificateServer;
+import edu.ws.CertificateServer;
 import edu.logic.pki.KeyTools;
 import java.net.MalformedURLException;
 import java.net.URL;

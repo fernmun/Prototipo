@@ -2,7 +2,7 @@ package edu.logic.gui;
 
 import edu.api.SignerCreator;
 import edu.api.SignerInterface;
-import edu.api.ws.FileServer;
+import edu.ws.FileServer;
 import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.DocumentHandle;

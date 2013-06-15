@@ -1,4 +1,4 @@
-package edu.api.ws;
+package edu.ws;
 
 import java.util.HashMap;
 import javax.jws.WebMethod;
@@ -25,7 +25,7 @@ public interface UserServer{
      * @param pass
      * @return
      */
-    @WebMethod HashMap<String, Object> getUserData(int uid, String pass);
+    @WebMethod HashMap<String, Object> getUserDataByUid(int uid, String pass);
     /**
      *
      * @param userName

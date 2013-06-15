@@ -3,7 +3,7 @@ package edu.view.login;
 import edu.api.gui.CommandInterface;
 import edu.logic.User;
 import edu.view.FrameClient;
-import edu.api.ws.UserServer;
+import edu.ws.UserServer;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,7 +53,7 @@ public class LoginButton extends JButton implements CommandInterface{
         user = null;
         
         try {
-            url = new URL("http://localhost:9999/ws/user?wsdl");
+            url = new URL("http://localhost:8080/ws_prototipo/UserServerImpl?wsdl");
             QName qname = new QName("http://ws.edu/", "UserServerImplService");
 
             service = Service.create(url, qname);
