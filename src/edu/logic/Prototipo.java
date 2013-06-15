@@ -6,6 +6,7 @@ import edu.logic.pki.FileSignVerifier;
 import edu.logic.pki.FileSigner;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.pki.KeyTools;
+import edu.logic.pki.PDFSignVerifier;
 import edu.logic.tools.ZipTools;
 import java.io.File;
 import java.security.PrivateKey;
@@ -45,9 +46,10 @@ public class Prototipo {
 //        
         File toSign = new File("/home/david/prueba/amazon.pdf");
         
-        File toSave = new File("/home/david/prueba/amazon_s.zip");
+        File toSave = new File("/home/david/Google_signed.pdf");
+//        File toSave = new File("/home/david/NetBeansProjects/examplesitext/signatures/results/chapter2/signed_by_sign.pdf");
         ZipTools tools = new ZipTools();
-        SignVerifier verifier = new FileSignVerifier();
+        SignVerifier verifier = new PDFSignVerifier();
         System.out.println(verifier.verify(toSave));
 //        tools.uncompressFiles(toSave.getAbsolutePath(), "/home/david/prueba/b/");
 //        test.sign(toSign, toSave, pk, chain);
