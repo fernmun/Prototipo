@@ -20,13 +20,21 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 public interface FileServer{
 
+    //Get a document
+    /**
+     *
+     * @param idDocument Document id
+     * @return
+     */
+    @WebMethod String[] getDocument(int idDocument);
+
     //Get all user documents
     /**
      *
      * @param uid User id
      * @return
      */
-    @WebMethod HashMap<String, Object> getUserFiles(int uid);
+    @WebMethod int[] getUserFiles(int uid);
 
     //Set status of document
     /**
