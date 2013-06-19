@@ -50,7 +50,7 @@ public class Mediator {
     private BindingProvider bindingProvider;
     private SOAPBinding soapBinding;
     private PropertiesTool properties;
-    private KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
+    private KeyStoreTools kst;
     private SignerCreator signerCreator = new ExtFileSignerCreator();
     private SignUIBuilder sBuilder;
     private InboxUIBuilder iBuilder;
@@ -76,11 +76,11 @@ public class Mediator {
     public void registerSignerUIBuilder(SignUIBuilder builder){
         sBuilder = builder;
     }
-    
+
     /**
      *
      * Registers Inbox builder t
-     * 
+     *
      * @param builder
      *        {@link InboxUIBuilder}
      */
@@ -109,8 +109,9 @@ public class Mediator {
      *
      * @return
      */
-    public boolean signDocument(){
-         String name = documentToSign.getPath();
+    public boolean signDocument() throws IOException{
+        properties = new PropertiesTool("keystore.properties");
+        String name = documentToSign.getPath();
         String ext =  name.substring(name.lastIndexOf(".")+1);
 
         String alias = sBuilder.getSelectedAlias();
@@ -119,6 +120,7 @@ public class Mediator {
             JOptionPane.showMessageDialog(frameClient, "Error al firmar, por favor revise su pass");
             return false;
         }
+        kst = new KeyStoreTools(properties.getProperty("ks.folder") + properties.getProperty("ks.name"), "password");
         Certificate[] chain = kst.getCertificateChain(alias);
 
         signer = signerCreator.getSigner(ext);
@@ -178,9 +180,9 @@ public class Mediator {
             return false;
         }
     }
-    
+
     public void downloadDocumets(){
-        
+
         ArrayDeque<Document> documents = iBuilder.getSelectedInboxDocuments();
         int i = 0;
         for (Iterator<Document> it = documents.iterator(); it.hasNext();) {
@@ -191,24 +193,24 @@ public class Mediator {
             } catch (IOException ex) {
                 Logger.getLogger(edu.logic.gui.Mediator.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
         i++;
     }
-    private void download(String fileURL, String destinationDirectory) throws IOException { 
-        // File name that is being downloaded 
-        String downloadedFileName = fileURL.substring(fileURL.lastIndexOf("/")+1); 
-        // Open connection to the file 
-        URL url = new URL(fileURL); InputStream is = url.openStream(); 
-        // Stream to the destionation file 
-        FileOutputStream fos = new FileOutputStream(destinationDirectory + "/" + downloadedFileName); 
-        // Read bytes from URL to the local file 
-        byte[] buffer = new byte[4096]; int bytesRead = 0; System.out.print("Downloading " + downloadedFileName); while ((bytesRead = is.read(buffer)) != -1) { System.out.print(".");	
-        // Progress bar :) 
-        fos.write(buffer,0,bytesRead); } System.out.println("done!"); 
-        // Close destination stream fos.close(); 
-        // Close URL stream 
-        is.close(); 
+    private void download(String fileURL, String destinationDirectory) throws IOException {
+        // File name that is being downloaded
+        String downloadedFileName = fileURL.substring(fileURL.lastIndexOf("/")+1);
+        // Open connection to the file
+        URL url = new URL(fileURL); InputStream is = url.openStream();
+        // Stream to the destionation file
+        FileOutputStream fos = new FileOutputStream(destinationDirectory + "/" + downloadedFileName);
+        // Read bytes from URL to the local file
+        byte[] buffer = new byte[4096]; int bytesRead = 0; System.out.print("Downloading " + downloadedFileName); while ((bytesRead = is.read(buffer)) != -1) { System.out.print(".");
+        // Progress bar :)
+        fos.write(buffer,0,bytesRead); } System.out.println("done!");
+        // Close destination stream fos.close();
+        // Close URL stream
+        is.close();
     }
 
 

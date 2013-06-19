@@ -4,9 +4,11 @@ import edu.api.gui.UIBuilder;
 import edu.logic.gui.ButtonHandler;
 import edu.logic.gui.Mediator;
 import edu.logic.pki.KeyStoreTools;
+import edu.logic.tools.PropertiesTool;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.ArrayDeque;
@@ -27,16 +29,18 @@ public class SignUIBuilder extends UIBuilder{
     private JPasswordField txtPass;
     private JTable tblCertList;
     private ButtonHandler buttonHandler;
+    private final PropertiesTool prop;
 
     /**
      *
      * @param mediator
      */
-    public SignUIBuilder (Mediator mediator){
+    public SignUIBuilder (Mediator mediator) throws IOException{
         super(mediator);
         mediator.registerSignerUIBuilder(this);
-    } 
-    
+        prop = new PropertiesTool("keystore.properties");
+    }
+
     /**
      *
      */
@@ -46,7 +50,7 @@ public class SignUIBuilder extends UIBuilder{
         panelUI = new JPanel(new BorderLayout(20, 20));
 
         buttonHandler = new ButtonHandler();
-        
+
         JPanel pnlForm = new JPanel(new BorderLayout(10,10));
         JPanel pnlTop = new JPanel(new GridLayout(3, 1, 5, 5));
         JPanel pnlFindDocument = new JPanel(new BorderLayout(10, 0));
@@ -54,22 +58,22 @@ public class SignUIBuilder extends UIBuilder{
 //        JPanel pnlCert = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         JPanel pnlCert = new JPanel(new BorderLayout());
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
-        
+
         JLabel lblDocument = new JLabel("Documento a Firmar");
         JButton btnDocument = new FindDocumentButton("Buscar Documento", mediatorUI);
         btnDocument.addActionListener(buttonHandler);
-        
+
         JPanel pnlDocument = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlDocument.add(btnDocument);
-        
+
         pnlFindDocument.add(lblDocument, BorderLayout.WEST);
         pnlFindDocument.add(pnlDocument, BorderLayout.EAST);
-        
+
         JLabel lblPass = new JLabel("Parafrase:");
         txtPass = new JPasswordField();
         pnlPass.add(lblPass, BorderLayout.WEST);
         pnlPass.add(txtPass, BorderLayout.CENTER);
-        
+
         JLabel lblCert = new JLabel("Seleccionar llave para firmar");
         JButton bntCert = new CertRequestButton("Solicitar certificado");
         bntCert.addActionListener(buttonHandler);
@@ -77,18 +81,18 @@ public class SignUIBuilder extends UIBuilder{
         pnlCertButton.add(bntCert);
         pnlCert.add(lblCert, BorderLayout.WEST);
         pnlCert.add(pnlCertButton, BorderLayout.EAST);
-        
+
         pnlTop.add(pnlFindDocument);
         pnlTop.add(pnlPass);
         pnlTop.add(pnlCert);
-        
+
         String[] columnNames = {"Nombre", "Fecha"};
         ArrayDeque<ArrayDeque> rows = new ArrayDeque<ArrayDeque>();
-        KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
+        KeyStoreTools kst = new KeyStoreTools(prop.getProperty("ks.folder") + prop.getProperty("ks.name"), "password");
         String[] aliases = kst.getKeyList();
         int i = 0;
         for(String alias:aliases){
-            
+
             Certificate[] c = kst.getCertificateChain(alias);
             if(c[0].getType().equals("X.509")){
                 ArrayDeque row = new ArrayDeque();
@@ -113,20 +117,20 @@ public class SignUIBuilder extends UIBuilder{
             }
         }
         tblCertList = new JTable(data, columnNames);
-        
+
         JButton btnSignSave = new SignSaveButton("Firmar y Guardar", mediatorUI);
         btnSignSave.addActionListener(buttonHandler);
         JButton btnSignSend = new SignSendButton("Firmar y Enviar",mediatorUI);
         btnSignSend.addActionListener(buttonHandler);
         pnlButtons.add(btnSignSave);
         pnlButtons.add(btnSignSend);
-        
+
         JScrollPane jspCertList = new JScrollPane(tblCertList);
-        
+
         pnlForm.add(pnlTop,BorderLayout.NORTH);
         pnlForm.add(jspCertList,BorderLayout.CENTER);
         pnlForm.add(pnlButtons,BorderLayout.SOUTH);
-        
+
         panelUI.add(new JPanel(), BorderLayout.NORTH);
         panelUI.add(new JPanel(), BorderLayout.WEST);
         panelUI.add(new JPanel(), BorderLayout.EAST);
@@ -139,19 +143,19 @@ public class SignUIBuilder extends UIBuilder{
      * @return
      */
     public String getSelectedAlias(){
-        
+
         return tblCertList.getValueAt(tblCertList.getSelectedRow(), 0).toString();
     }
-    
+
     /**
      *
      * @return
      */
     public char[] getPassword(){
-        
+
         return txtPass.getPassword();
     }
-    
+
     /**
      *
      */
@@ -159,5 +163,5 @@ public class SignUIBuilder extends UIBuilder{
     public void initialize() {
         System.out.println("Not supported yet.");
     }
-    
+
 }

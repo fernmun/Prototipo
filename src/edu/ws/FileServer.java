@@ -32,7 +32,7 @@ public interface FileServer{
     /**
      *
      * @param idDocument Document id
-     * @param state Document state.
+     * @param state Document state. 1 as readed or 0 as unreaded
      * @return
      */
     @WebMethod boolean setFileState(int idDocument, int state);
