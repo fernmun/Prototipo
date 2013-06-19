@@ -4,11 +4,7 @@
  */
 package edu.ws;
 
-/**
- *
- * @author lmparra
- */
-
+import java.util.HashMap;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -17,16 +13,34 @@ import javax.jws.soap.SOAPBinding.Style;
 //Service Endpoint Interface
 /**
  *
- * @author lmparra
+ * @author David Camilo Nova
+ * @author Luis Fernando Muñoz
  */
 @WebService
 @SOAPBinding(style = Style.RPC)
 public interface FileServer{
 
+    //Get all user documents
+    /**
+     *
+     * @param uid User id
+     * @return
+     */
+    @WebMethod HashMap<String, Object> getUserFiles(int uid);
+
+    //Set status of document
+    /**
+     *
+     * @param idDocument Document id
+     * @param state Document state.
+     * @return
+     */
+    @WebMethod boolean setFileState(int idDocument, int state);
+
     //download a image from server
     /**
      *
-     * @param name
+     * @param name File name
      * @return
      */
     @WebMethod byte[] downloadFile(String name);
@@ -34,9 +48,10 @@ public interface FileServer{
     //update image to server
     /**
      *
-     * @param data
+     * @param data File bytes map to transmit
+     * @param String File name
      * @return
      */
-    @WebMethod String uploadFile(byte[] data);
+    @WebMethod String uploadFile(byte[] data, String name);
 
 }
