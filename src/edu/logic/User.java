@@ -4,7 +4,7 @@
  */
 package edu.logic;
 
-import java.util.Vector;
+import java.util.ArrayDeque;
 
 /**
  *
@@ -17,8 +17,8 @@ public class User {
     private String lastName;
     private String distinguishedName;
     private String profileName;
-    private Vector availableCertificates;
-    private Vector inboxDocuments;
+    private ArrayDeque availableCertificates;
+    private ArrayDeque inboxDocuments;
 
     private static User user = new User();
 
@@ -122,7 +122,7 @@ public class User {
      *
      * @return
      */
-    public Vector getAvailableCertificates() {
+    public ArrayDeque getAvailableCertificates() {
         return availableCertificates;
     }
 
@@ -130,7 +130,7 @@ public class User {
      *
      * @param availableCertificates
      */
-    public void setAvailableCertificates(Vector availableCertificates) {
+    public void setAvailableCertificates(ArrayDeque availableCertificates) {
         this.availableCertificates = availableCertificates;
     }
 
@@ -138,7 +138,7 @@ public class User {
      *
      * @return
      */
-    public Vector getInboxDocuments() {
+    public ArrayDeque getInboxDocuments() {
         return inboxDocuments;
     }
 
@@ -146,7 +146,7 @@ public class User {
      *
      * @param inboxDocuments
      */
-    public void setInboxDocuments(Vector inboxDocuments) {
+    public void setInboxDocuments(ArrayDeque inboxDocuments) {
         this.inboxDocuments = inboxDocuments;
     }
 

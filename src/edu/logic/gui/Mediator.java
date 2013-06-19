@@ -2,17 +2,26 @@ package edu.logic.gui;
 
 import edu.api.SignerCreator;
 import edu.api.SignerInterface;
+import edu.logic.Document;
 import edu.ws.FileServer;
 import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.PropertiesTool;
 import edu.view.FrameClient;
+import edu.view.InboxUIBuilder;
 import edu.view.SignUIBuilder;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
@@ -44,6 +53,7 @@ public class Mediator {
     private KeyStoreTools kst = new KeyStoreTools("/home/david/prueba/ks", "password");
     private SignerCreator signerCreator = new ExtFileSignerCreator();
     private SignUIBuilder sBuilder;
+    private InboxUIBuilder iBuilder;
 
     /**
      *
@@ -65,6 +75,17 @@ public class Mediator {
      */
     public void registerSignerUIBuilder(SignUIBuilder builder){
         sBuilder = builder;
+    }
+    
+    /**
+     *
+     * Registers Inbox builder t
+     * 
+     * @param builder
+     *        {@link InboxUIBuilder}
+     */
+    public void registerInboxUIBuilder(InboxUIBuilder builder){
+        iBuilder = builder;
     }
 
     /**
@@ -157,4 +178,38 @@ public class Mediator {
             return false;
         }
     }
+    
+    public void downloadDocumets(){
+        
+        ArrayDeque<Document> documents = iBuilder.getSelectedInboxDocuments();
+        int i = 0;
+        for (Iterator<Document> it = documents.iterator(); it.hasNext();) {
+            Document document = it.next();
+            System.out.println(document.getUri());
+            try {
+                download(document.getUri(),"/home/david/down");
+            } catch (IOException ex) {
+                Logger.getLogger(edu.logic.gui.Mediator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        i++;
+    }
+    private void download(String fileURL, String destinationDirectory) throws IOException { 
+        // File name that is being downloaded 
+        String downloadedFileName = fileURL.substring(fileURL.lastIndexOf("/")+1); 
+        // Open connection to the file 
+        URL url = new URL(fileURL); InputStream is = url.openStream(); 
+        // Stream to the destionation file 
+        FileOutputStream fos = new FileOutputStream(destinationDirectory + "/" + downloadedFileName); 
+        // Read bytes from URL to the local file 
+        byte[] buffer = new byte[4096]; int bytesRead = 0; System.out.print("Downloading " + downloadedFileName); while ((bytesRead = is.read(buffer)) != -1) { System.out.print(".");	
+        // Progress bar :) 
+        fos.write(buffer,0,bytesRead); } System.out.println("done!"); 
+        // Close destination stream fos.close(); 
+        // Close URL stream 
+        is.close(); 
+    }
+
+
 }

@@ -1,10 +1,15 @@
 package edu.view;
 
 import edu.api.gui.UIBuilder;
+import edu.logic.InboxTools;
+import edu.logic.Document;
+import edu.logic.gui.ButtonHandler;
 import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayDeque;
+import java.util.Iterator;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,9 +23,11 @@ import javax.swing.JTable;
  */
 public class InboxUIBuilder extends UIBuilder{
 
-    JTabbedPane jtpDocuments;
-    JLabel lblInbox, lblReadbox;
-    JTable tblInbox, tblReadbox;
+    private JTabbedPane jtpDocuments;
+    private JLabel lblInbox, lblReadbox;
+    private JTable tblInbox, tblReadbox;
+    private ArrayDeque<Document> inDocuments;
+    private ButtonHandler buttonHandler = new ButtonHandler();
 
     /**
      *
@@ -28,6 +35,7 @@ public class InboxUIBuilder extends UIBuilder{
      */
     public InboxUIBuilder(Mediator mediator){
         super(mediator);
+        mediator.registerInboxUIBuilder(this);
     } 
     
     /**
@@ -66,7 +74,19 @@ public class InboxUIBuilder extends UIBuilder{
         
         lblInbox = new JLabel("Documentos Recibidos:");
         
+        InboxTools boxTools = new InboxTools();
+        inDocuments= boxTools.getInboxDocuments();
+               
         String[] columnNames = {" ", "Nombre", "Fecha"};
+        Object[][] data1 = new Object[inDocuments.size()][];
+        int i = 0;
+        for (Iterator<Document> it = inDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+            Object[] doc = {new Boolean(false),document.getName(),document.getUpdated()};
+            data1[i] = doc;
+            i++;
+        }
+        
         Object[][] data = {
             {new Boolean(false), "Documento 1", "1 Ago/2012"},
             {new Boolean(false), "Documento 1", "1 Ago/2012"},
@@ -76,7 +96,7 @@ public class InboxUIBuilder extends UIBuilder{
         
 //        tblInbox = new JTable(data, columnNames);
         int[] editableCols={0};
-        tblInbox = new JTable(new DocumentListTableModel(data, columnNames,editableCols));
+        tblInbox = new JTable(new DocumentListTableModel(data1, columnNames,editableCols));
         tblInbox.setPreferredScrollableViewportSize(new Dimension(500, 70));
         tblInbox.setFillsViewportHeight(true);
 
@@ -84,7 +104,8 @@ public class InboxUIBuilder extends UIBuilder{
         JScrollPane scrollPane = new JScrollPane(tblInbox);
         
         ReadButton btnRead = new ReadButton("Marcar como leído");
-        DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar");
+        DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
+        btnDownload.addActionListener(buttonHandler);
         
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlButtons.add(btnRead);
@@ -120,7 +141,7 @@ public class InboxUIBuilder extends UIBuilder{
         JScrollPane scrollPane = new JScrollPane(tblReadbox);
         
         UnreadButton btnUnread = new UnreadButton("Marcar como no leído");
-        DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar");
+        DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
         
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlButtons.add(btnUnread);
@@ -132,6 +153,20 @@ public class InboxUIBuilder extends UIBuilder{
         pnlReadbox.add(pnlButtons, BorderLayout.SOUTH);
         
         return pnlReadbox;
+    }
+    
+    public ArrayDeque<Document> getSelectedInboxDocuments(){
+        
+        ArrayDeque<Document> selectedInboxDocuments = new ArrayDeque<Document>();
+        int i=0;
+        for (Iterator<Document> it = inDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+             if(tblInbox.getValueAt(i, 0).equals(new Boolean(true))){
+                selectedInboxDocuments.add(document);
+            }
+            i++;
+        }
+        return selectedInboxDocuments;
     }
     
 }
