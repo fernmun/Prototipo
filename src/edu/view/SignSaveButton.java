@@ -2,6 +2,9 @@ package edu.view;
 
 import edu.api.gui.CommandInterface;
 import edu.logic.gui.Mediator;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
@@ -23,7 +26,11 @@ public class SignSaveButton extends JButton implements CommandInterface{
      */
     @Override
     public void processEvent() {
-        mediator.signDocument();
+        try {
+            mediator.signDocument();
+        } catch (IOException ex) {
+            Logger.getLogger(SignSaveButton.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
