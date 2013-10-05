@@ -5,8 +5,6 @@
 package edu.api.gui;
 
 import edu.logic.gui.Mediator;
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -25,27 +23,27 @@ public abstract class UIBuilder {
     protected Mediator mediatorUI;
 
     /**
-     *
-     */
+    *
+    */
     public abstract void addUIControls();
     /**
-     *
-     */
+    *
+    */
     public abstract void initialize();
 
     /**
-     *
-     * @return
-     */
+    *
+    * @return
+    */
     public JPanel getPanel() {
-    return panelUI;
-  }
-  
+        return panelUI;
+    }
+
     /**
-     *
-     * @param mediator
-     */
+    *
+    * @param mediator
+    */
     public UIBuilder(Mediator mediator){
-      mediatorUI = mediator;
-  }
+        mediatorUI = mediator;
+    }
 }

@@ -1,9 +1,11 @@
 package edu.view;
 
 import edu.api.gui.UIBuilder;
+import edu.logic.gui.ButtonHandler;
 import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,13 +38,18 @@ public class SendUIBuilder extends UIBuilder{
      */
     @Override
     public void addUIControls() {
+        
+        ButtonHandler handler = new ButtonHandler();
+        
         panelUI = new JPanel(new BorderLayout(20, 20));
         pnlForm = new JPanel(new BorderLayout(10, 10));
         pnlFormFields = new JPanel(new SpringLayout());
         
         
         pnlFormFields.add(new JLabel("Documento firmado:", JLabel.TRAILING));
-        pnlFormFields.add(new FindDocumentButton("Buscar documento", mediatorUI));
+        JButton btnFindDocument = new FindDocumentButton("Buscar documento", mediatorUI);
+        btnFindDocument.addActionListener(handler);
+        pnlFormFields.add(btnFindDocument);
         
         pnlFormFields.add(new JLabel("Destinatario:", JLabel.TRAILING));
         pnlFormFields.add(new FindUserButton("Escoger Usuario"));

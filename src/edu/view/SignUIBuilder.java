@@ -5,6 +5,7 @@ import edu.logic.gui.ButtonHandler;
 import edu.logic.gui.Mediator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.PropertiesTool;
+import edu.logic.tools.StringCipher;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.ArrayDeque;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,7 +32,7 @@ public class SignUIBuilder extends UIBuilder{
     private JPasswordField txtPass;
     private JTable tblCertList;
     private ButtonHandler buttonHandler;
-    private final PropertiesTool prop;
+    private final PropertiesTool settings;
 
     /**
      *
@@ -38,7 +41,7 @@ public class SignUIBuilder extends UIBuilder{
     public SignUIBuilder (Mediator mediator) throws IOException{
         super(mediator);
         mediator.registerSignerUIBuilder(this);
-        prop = new PropertiesTool("keystore.properties");
+        settings = new PropertiesTool("settings.properties");
     }
 
     /**
@@ -88,7 +91,15 @@ public class SignUIBuilder extends UIBuilder{
 
         String[] columnNames = {"Nombre", "Fecha"};
         ArrayDeque<ArrayDeque> rows = new ArrayDeque<ArrayDeque>();
-        KeyStoreTools kst = new KeyStoreTools(prop.getProperty("ks.folder") + prop.getProperty("ks.name"), "password");
+        String pass = settings.getProperty("keystore.password");
+        if(pass != null){
+            try {
+                pass = StringCipher.decrypt(pass);
+            } catch (Exception ex) {
+                Logger.getLogger(Mediator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        KeyStoreTools kst = new KeyStoreTools(settings.getProperty("keystore.path"), pass);
         String[] aliases = kst.getKeyList();
         int i = 0;
         for(String alias:aliases){

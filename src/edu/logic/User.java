@@ -17,6 +17,7 @@ public class User {
     private String lastName;
     private String distinguishedName;
     private String profileName;
+    private String profileImage;
     private ArrayDeque availableCertificates;
     private ArrayDeque inboxDocuments;
 
@@ -165,7 +166,21 @@ public class User {
     public void setProfileName(String profileName) {
         this.profileName = profileName;
     }
-    
-    
+
+    /**
+     * 
+     * @return 
+     */
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    /**
+     * 
+     * @param profileImage 
+     */
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
     
 }

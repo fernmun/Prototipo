@@ -1,8 +1,8 @@
 package edu.view;
 
 import edu.api.gui.UIBuilder;
-import edu.logic.InboxTools;
 import edu.logic.Document;
+import edu.logic.InboxTools;
 import edu.logic.gui.ButtonHandler;
 import edu.logic.gui.Mediator;
 import java.awt.BorderLayout;
@@ -24,9 +24,9 @@ import javax.swing.JTable;
 public class InboxUIBuilder extends UIBuilder{
 
     private JTabbedPane jtpDocuments;
-    private JLabel lblInbox, lblReadbox;
-    private JTable tblInbox, tblReadbox;
-    private ArrayDeque<Document> inDocuments;
+    private JLabel lblInbox, lblReadbox, lblSentbox;
+    private JTable tblInbox, tblReadbox, tblSentbox;
+    private ArrayDeque<Document> inDocuments, readDocuments, sentDocuments;
     private ButtonHandler buttonHandler = new ButtonHandler();
 
     /**
@@ -50,9 +50,11 @@ public class InboxUIBuilder extends UIBuilder{
         
         JPanel pnlInbox = buildInbox();
         JPanel pnlReadbox = buildReadbox();
+        JPanel pnlSentbox = buildSentbox();
         
         jtpDocuments.addTab("Recibidos", pnlInbox);
         jtpDocuments.addTab("Leídos", pnlReadbox);
+        jtpDocuments.addTab("Enviados", pnlSentbox);
         
         panelUI.add(new JPanel(), BorderLayout.NORTH);
         panelUI.add(new JPanel(), BorderLayout.WEST);
@@ -78,25 +80,17 @@ public class InboxUIBuilder extends UIBuilder{
         inDocuments= boxTools.getInboxDocuments();
                
         String[] columnNames = {" ", "Nombre", "Fecha"};
-        Object[][] data1 = new Object[inDocuments.size()][];
+        Object[][] data = new Object[inDocuments.size()][];
         int i = 0;
         for (Iterator<Document> it = inDocuments.iterator(); it.hasNext();) {
             Document document = it.next();
             Object[] doc = {new Boolean(false),document.getName(),document.getUpdated()};
-            data1[i] = doc;
+            data[i] = doc;
             i++;
         }
         
-        Object[][] data = {
-            {new Boolean(false), "Documento 1", "1 Ago/2012"},
-            {new Boolean(false), "Documento 1", "1 Ago/2012"},
-            {new Boolean(false), "Documento 1", "1 Ago/2012"},
-            {new Boolean(false), "Documento 1", "1 Ago/2012"}
-        };
-        
-//        tblInbox = new JTable(data, columnNames);
         int[] editableCols={0};
-        tblInbox = new JTable(new DocumentListTableModel(data1, columnNames,editableCols));
+        tblInbox = new JTable(new DocumentListTableModel(data, columnNames,editableCols));
         tblInbox.setPreferredScrollableViewportSize(new Dimension(500, 70));
         tblInbox.setFillsViewportHeight(true);
 
@@ -123,15 +117,19 @@ public class InboxUIBuilder extends UIBuilder{
         
         lblReadbox = new JLabel("Documentos Recibidos:");
         
+        InboxTools boxTools = new InboxTools();
+        readDocuments= boxTools.getReadDocuments();
+               
         String[] columnNames = {" ", "Nombre", "Fecha"};
-        Object[][] data = {
-            {new Boolean(false), "Documento 2", "1 Jul/2012"},
-            {new Boolean(false), "Documento 2", "1 Jul/2012"},
-            {new Boolean(false), "Documento 2", "1 Jul/2012"},
-            {new Boolean(false), "Documento 2", "1 Jul/2012"}
-        };
+        Object[][] data = new Object[readDocuments.size()][];
+        int i = 0;
+        for (Iterator<Document> it = readDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+            Object[] doc = {new Boolean(false),document.getName(),document.getUpdated()};
+            data[i] = doc;
+            i++;
+        }
         
-//        tblInbox = new JTable(data, columnNames);
         int[] editableCols={0};
         tblReadbox = new JTable(new DocumentListTableModel(data, columnNames,editableCols));
         tblReadbox.setPreferredScrollableViewportSize(new Dimension(500, 70));
@@ -142,6 +140,7 @@ public class InboxUIBuilder extends UIBuilder{
         
         UnreadButton btnUnread = new UnreadButton("Marcar como no leído");
         DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
+        btnDownload.addActionListener(buttonHandler);
         
         JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
         pnlButtons.add(btnUnread);
@@ -155,18 +154,107 @@ public class InboxUIBuilder extends UIBuilder{
         return pnlReadbox;
     }
     
+    private JPanel buildSentbox(){
+        JPanel pnlSentbox = new JPanel(new BorderLayout(10, 10));
+        
+        lblSentbox = new JLabel("Documentos Recibidos:");
+        
+        InboxTools boxTools = new InboxTools();
+        sentDocuments= boxTools.getSentDocuments();
+               
+        String[] columnNames = {" ", "Nombre", "Fecha"};
+        Object[][] data = new Object[sentDocuments.size()][];
+        int i = 0;
+        for (Iterator<Document> it = sentDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+            Object[] doc = {new Boolean(false),document.getName(),document.getUpdated()};
+            data[i] = doc;
+            i++;
+        }
+        
+        int[] editableCols={0};
+        tblSentbox = new JTable(new DocumentListTableModel(data, columnNames,editableCols));
+        tblSentbox.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        tblSentbox.setFillsViewportHeight(true);
+
+        //Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(tblSentbox);
+        
+        DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
+        btnDownload.addActionListener(buttonHandler);
+        
+        JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.TRAILING, 10, 10));
+        pnlButtons.add(btnDownload);
+        
+        
+        pnlSentbox.add(lblSentbox, BorderLayout.NORTH);
+        pnlSentbox.add(scrollPane, BorderLayout.CENTER);
+        pnlSentbox.add(pnlButtons, BorderLayout.SOUTH);
+        
+        return pnlSentbox;
+    }
+    
     public ArrayDeque<Document> getSelectedInboxDocuments(){
         
         ArrayDeque<Document> selectedInboxDocuments = new ArrayDeque<Document>();
         int i=0;
         for (Iterator<Document> it = inDocuments.iterator(); it.hasNext();) {
             Document document = it.next();
-             if(tblInbox.getValueAt(i, 0).equals(new Boolean(true))){
+            if(tblInbox.getValueAt(i, 0).equals(new Boolean(true))){
                 selectedInboxDocuments.add(document);
             }
             i++;
         }
         return selectedInboxDocuments;
+    }
+    
+    public ArrayDeque<Document> getSelectedReadDocuments(){
+        
+        ArrayDeque<Document> selectedReadDocuments = new ArrayDeque<Document>();
+        int i=0;
+        for (Iterator<Document> it = readDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+             if(tblReadbox.getValueAt(i, 0).equals(new Boolean(true))){
+                selectedReadDocuments.add(document);
+            }
+            i++;
+        }
+        return selectedReadDocuments;
+    }
+    
+    public ArrayDeque<Document> getSelectedSentDocuments(){
+        
+        ArrayDeque<Document> selectedReadDocuments = new ArrayDeque<Document>();
+        int i=0;
+        for (Iterator<Document> it = sentDocuments.iterator(); it.hasNext();) {
+            Document document = it.next();
+             if(tblSentbox.getValueAt(i, 0).equals(new Boolean(true))){
+                selectedReadDocuments.add(document);
+            }
+            i++;
+        }
+        return selectedReadDocuments;
+    }
+    
+    public ArrayDeque<Document> getSelectedDocuments(){
+        
+        ArrayDeque<Document> selectedDocuments = new ArrayDeque<Document>();
+        
+        switch (jtpDocuments.getSelectedIndex()){
+            case 0:
+                selectedDocuments = getSelectedInboxDocuments();
+                break;
+            case 1:
+                selectedDocuments = getSelectedReadDocuments();
+                break;
+            case 2:
+                selectedDocuments = getSelectedSentDocuments();
+                break;
+            default:
+                break;
+        }
+        
+        return selectedDocuments;
     }
     
 }

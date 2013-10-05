@@ -107,6 +107,14 @@ public class FrameClient extends JFrame{
             
             JPanel pnlInbox = documentBuilder.getPanel();
             tbcTabs.addTab("Documentos", pnlInbox);
+            
+            UIBuilder settingsBuilder = new SettingsUIBuilder(mediator);
+            
+            director = new UIDirector(settingsBuilder);
+            director.build();
+            
+            JPanel pnlSettings = settingsBuilder.getPanel();
+            tbcTabs.addTab("Configuración", pnlSettings);
 
             pnlContent = new JPanel(new BorderLayout(20, 20));
             pnlContent.add(pnlUserProfile, BorderLayout.NORTH);
@@ -125,6 +133,6 @@ public class FrameClient extends JFrame{
         } catch (IOException ex) {
             Logger.getLogger(FrameClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-  }
-  
+    }
+    
 }

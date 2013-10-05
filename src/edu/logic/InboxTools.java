@@ -56,6 +56,48 @@ public class InboxTools {
         return inbox;
     }
     
+    /**
+     *
+     * @return
+     */
+    public ArrayDeque<Document> getReadDocuments(){
+        long created = 1290592000000L;
+        long updated = 1370562800000L;
+        ArrayDeque<Document> inbox = new ArrayDeque<Document>();
+        inbox.add(new Document(1, "Documento 5", "http://www.elespectador.com/files/001116f2f3226b73e6d1a5191363139d.pdf?o=r", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 6", "http://elespectador.s3.amazonaws.com/files/005e5f1bc965d89fa45e1a20c2fb4412.pdf?o=r", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 7", "http://elespectador.s3.amazonaws.com/files/00c92bbb3552595cee3b4535796db9f4.pdf?o=r", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 8", "http://elespectador.s3.amazonaws.com/files/0167f60bb2154aea6d6bc001f018b6a8.pdf?o=r", new Date(created), new Date(updated)));
+
+//        inbox = getUserInboxFiles();
+        return inbox;
+    }
+    
+    public ArrayDeque<Document> getSentDocuments(){
+        long created = 1289592000000L;
+        long updated = 1369562800000L;
+        ArrayDeque<Document> inbox = new ArrayDeque<Document>();
+        inbox.add(new Document(1, "Documento 9", "http://www.elespectador.com/files/001116f2f3226b73e6d1a5191363139d.pdf?o=s", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 10", "http://elespectador.s3.amazonaws.com/files/005e5f1bc965d89fa45e1a20c2fb4412.pdf?o=s", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 11", "http://elespectador.s3.amazonaws.com/files/00c92bbb3552595cee3b4535796db9f4.pdf?o=s", new Date(created), new Date(updated)));
+        created += 24*3600*1000;
+        updated += 24*3600*1000;
+        inbox.add(new Document(1, "Documento 12", "http://elespectador.s3.amazonaws.com/files/0167f60bb2154aea6d6bc001f018b6a8.pdf?o=s", new Date(created), new Date(updated)));
+
+//        inbox = getUserInboxFiles();
+        return inbox;
+    }
+    
     private ArrayDeque<Document> getUserInboxFiles(){
     
         ArrayDeque<Document> documents = new ArrayDeque<Document>();

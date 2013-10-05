@@ -8,8 +8,10 @@ import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.PropertiesTool;
+import edu.logic.tools.StringCipher;
 import edu.view.FrameClient;
 import edu.view.InboxUIBuilder;
+import edu.view.SettingsUIBuilder;
 import edu.view.SignUIBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,7 +21,9 @@ import java.net.URL;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -49,11 +53,20 @@ public class Mediator {
     private FileServer fileServer;
     private BindingProvider bindingProvider;
     private SOAPBinding soapBinding;
-    private PropertiesTool properties;
+    private PropertiesTool properties, settings;
     private KeyStoreTools kst;
     private SignerCreator signerCreator = new ExtFileSignerCreator();
     private SignUIBuilder sBuilder;
     private InboxUIBuilder iBuilder;
+    private SettingsUIBuilder cBuilder;
+
+    public Mediator() {
+        try {
+            settings = new PropertiesTool("settings.properties");
+        } catch (IOException ex) {
+            Logger.getLogger(Mediator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      *
@@ -87,6 +100,17 @@ public class Mediator {
     public void registerInboxUIBuilder(InboxUIBuilder builder){
         iBuilder = builder;
     }
+    
+    /**
+     *
+     * Registers Inbox builder t
+     *
+     * @param builder
+     *        {@link InboxUIBuilder}
+     */
+    public void registerSettingsUIBuilder(SettingsUIBuilder builder){
+        cBuilder = builder;
+    }
 
     /**
      *
@@ -110,7 +134,6 @@ public class Mediator {
      * @return
      */
     public boolean signDocument() throws IOException{
-        properties = new PropertiesTool("keystore.properties");
         String name = documentToSign.getPath();
         String ext =  name.substring(name.lastIndexOf(".")+1);
 
@@ -120,7 +143,15 @@ public class Mediator {
             JOptionPane.showMessageDialog(frameClient, "Error al firmar, por favor revise su pass");
             return false;
         }
-        kst = new KeyStoreTools(properties.getProperty("ks.folder") + properties.getProperty("ks.name"), "password");
+        String pass = settings.getProperty("keystore.password");
+        if(pass != null){
+            try {
+                pass = StringCipher.decrypt(pass);
+            } catch (Exception ex) {
+                Logger.getLogger(Mediator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        kst = new KeyStoreTools(settings.getProperty("keystore.path"), pass);
         Certificate[] chain = kst.getCertificateChain(alias);
 
         signer = signerCreator.getSigner(ext);
@@ -183,7 +214,7 @@ public class Mediator {
 
     public void downloadDocumets(){
 
-        ArrayDeque<Document> documents = iBuilder.getSelectedInboxDocuments();
+        ArrayDeque<Document> documents = iBuilder.getSelectedDocuments();
         int i = 0;
         for (Iterator<Document> it = documents.iterator(); it.hasNext();) {
             Document document = it.next();
@@ -197,6 +228,7 @@ public class Mediator {
         }
         i++;
     }
+    
     private void download(String fileURL, String destinationDirectory) throws IOException {
         // File name that is being downloaded
         String downloadedFileName = fileURL.substring(fileURL.lastIndexOf("/")+1);
@@ -205,12 +237,31 @@ public class Mediator {
         // Stream to the destionation file
         FileOutputStream fos = new FileOutputStream(destinationDirectory + "/" + downloadedFileName);
         // Read bytes from URL to the local file
-        byte[] buffer = new byte[4096]; int bytesRead = 0; System.out.print("Downloading " + downloadedFileName); while ((bytesRead = is.read(buffer)) != -1) { System.out.print(".");
-        // Progress bar :)
-        fos.write(buffer,0,bytesRead); } System.out.println("done!");
+        byte[] buffer = new byte[4096]; int bytesRead = 0; 
+        System.out.print("Downloading " + downloadedFileName); 
+        while ((bytesRead = is.read(buffer)) != -1) { 
+            System.out.print(".");
+            // Progress bar :)
+            fos.write(buffer,0,bytesRead); 
+        } System.out.println("done!");
         // Close destination stream fos.close();
         // Close URL stream
         is.close();
+    }
+    
+    public void saveSettings(){
+        HashMap<String, String> settingsTmp = cBuilder.getSettings();
+        Iterator it = settingsTmp.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> setting = (Map.Entry)it.next();
+            settings.setProperty(setting.getKey(), setting.getValue());
+        }
+        try {
+            settings.store();
+        } catch (IOException ex) {
+            Logger.getLogger(Mediator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(settings);
     }
 
 
