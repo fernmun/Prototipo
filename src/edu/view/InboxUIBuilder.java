@@ -24,11 +24,10 @@ import javax.swing.JTable;
 public class InboxUIBuilder extends UIBuilder{
 
     private JTabbedPane jtpDocuments;
-    private JLabel lblInbox, lblReadbox, lblSentbox;
     private JTable tblInbox, tblReadbox, tblSentbox;
     private ArrayDeque<Document> inDocuments, readDocuments, sentDocuments;
     private ButtonHandler buttonHandler = new ButtonHandler();
-
+    
     /**
      *
      * @param mediator
@@ -74,7 +73,7 @@ public class InboxUIBuilder extends UIBuilder{
     private JPanel buildInbox(){
         JPanel pnlInbox = new JPanel(new BorderLayout(10, 10));
         
-        lblInbox = new JLabel("Documentos Recibidos:");
+        JLabel lblInbox = new JLabel("Documentos Recibidos:");
         
         InboxTools boxTools = new InboxTools();
         inDocuments= boxTools.getInboxDocuments();
@@ -115,7 +114,7 @@ public class InboxUIBuilder extends UIBuilder{
     private JPanel buildReadbox(){
         JPanel pnlReadbox = new JPanel(new BorderLayout(10, 10));
         
-        lblReadbox = new JLabel("Documentos Recibidos:");
+        JLabel lblReadbox = new JLabel("Documentos Recibidos:");
         
         InboxTools boxTools = new InboxTools();
         readDocuments= boxTools.getReadDocuments();
@@ -157,7 +156,7 @@ public class InboxUIBuilder extends UIBuilder{
     private JPanel buildSentbox(){
         JPanel pnlSentbox = new JPanel(new BorderLayout(10, 10));
         
-        lblSentbox = new JLabel("Documentos Recibidos:");
+        JLabel lblSentbox = new JLabel("Documentos Recibidos:");
         
         InboxTools boxTools = new InboxTools();
         sentDocuments= boxTools.getSentDocuments();

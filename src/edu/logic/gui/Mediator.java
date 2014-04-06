@@ -1,10 +1,14 @@
 package edu.logic.gui;
 
+import edu.api.SignVerifier;
 import edu.api.SignerCreator;
 import edu.api.SignerInterface;
 import edu.logic.Document;
+import edu.logic.ExtSignDocumentCreator;
+import edu.logic.SignDocument;
 import edu.ws.FileServer;
 import edu.logic.pki.ExtFileSignerCreator;
+import edu.logic.pki.ExtSignVerifierCreator;
 import edu.logic.pki.KeyStoreTools;
 import edu.logic.tools.DocumentHandle;
 import edu.logic.tools.PropertiesTool;
@@ -13,6 +17,7 @@ import edu.view.FrameClient;
 import edu.view.InboxUIBuilder;
 import edu.view.SettingsUIBuilder;
 import edu.view.SignUIBuilder;
+import edu.view.VerifyUIBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,20 +49,11 @@ public class Mediator {
 
     private FrameClient frameClient;
     private File documentToSign;
-    private DocumentHandle documentSigned;
-    private SignerInterface signer;
-    private String fileName, directory, status;
-    private URL url;
-    private QName qName;
-    private Service service;
-    private FileServer fileServer;
-    private BindingProvider bindingProvider;
-    private SOAPBinding soapBinding;
     private PropertiesTool properties, settings;
     private KeyStoreTools kst;
-    private SignerCreator signerCreator = new ExtFileSignerCreator();
     private SignUIBuilder sBuilder;
     private InboxUIBuilder iBuilder;
+    private VerifyUIBuilder vBuilder;
     private SettingsUIBuilder cBuilder;
 
     public Mediator() {
@@ -99,6 +95,10 @@ public class Mediator {
      */
     public void registerInboxUIBuilder(InboxUIBuilder builder){
         iBuilder = builder;
+    }
+    
+    public void registerVerifyUIBuilder(VerifyUIBuilder builder){
+        vBuilder = builder;
     }
     
     /**
@@ -154,7 +154,9 @@ public class Mediator {
         kst = new KeyStoreTools(settings.getProperty("keystore.path"), pass);
         Certificate[] chain = kst.getCertificateChain(alias);
 
-        signer = signerCreator.getSigner(ext);
+        SignerCreator signerCreator = new ExtFileSignerCreator();
+        
+        SignerInterface signer = signerCreator.getSigner(ext);
 
         File outFile = signer.sign(documentToSign, pk, chain[0]);
 
@@ -178,23 +180,23 @@ public class Mediator {
     public boolean sendDocument() throws Exception{
         properties = new PropertiesTool("web-services.properties");
 
-        fileName = properties.getProperty("ws.up_file");
-        directory = properties.getProperty("ws.up_directory");
+        String fileName = properties.getProperty("ws.up_file");
+        String directory = properties.getProperty("ws.up_directory");
 
-        url = new URL(properties.getProperty("ws.file_request"));
-        qName = new QName(properties.getProperty("ws.file_request.qname"), properties.getProperty("ws.file_request.service"));
-        service = Service.create(url, qName);
-        fileServer = service.getPort(FileServer.class);
+        URL url = new URL(properties.getProperty("ws.file_request"));
+        QName qName = new QName(properties.getProperty("ws.file_request.qname"), properties.getProperty("ws.file_request.service"));
+        Service service = Service.create(url, qName);
+        FileServer fileServer = service.getPort(FileServer.class);
 
-        documentSigned = new DocumentHandle(fileName, directory);
+        DocumentHandle documentSigned = new DocumentHandle(fileName, directory);
 
         //Enable MTOM in client
-        bindingProvider = (BindingProvider) fileServer;
-        soapBinding = (SOAPBinding) bindingProvider.getBinding();
+        BindingProvider bindingProvider = (BindingProvider) fileServer;
+        SOAPBinding soapBinding = (SOAPBinding) bindingProvider.getBinding();
         soapBinding.setMTOMEnabled(true);
 
-        status = fileServer.uploadFile(documentSigned.readFile(), fileName);
-
+        String status = fileServer.uploadFile(documentSigned.readFile(), fileName);
+        
         return false;
     }
 
@@ -247,6 +249,27 @@ public class Mediator {
         // Close destination stream fos.close();
         // Close URL stream
         is.close();
+    }
+    
+    public boolean verifyDocument(){
+        String fileToVerify = vBuilder.getFileToVerify();
+        String ext =  fileToVerify.substring(fileToVerify.lastIndexOf(".")+1);
+        SignDocument document = new ExtSignDocumentCreator().getSignDocument(ext);
+        Certificate cert = null;
+        if(document.isSigned()){
+            cert = document.getSignatureCertificate();
+        }
+        String msj = "Documento no valido";
+        
+        SignVerifier verifier = new ExtSignVerifierCreator().getSignVerifier(ext);
+        if(verifier.verify(new File(fileToVerify))){
+            msj = "Firma valida";
+            if(cert != null){
+                
+            }
+        }
+        JOptionPane.showMessageDialog(frameClient, msj);
+        return false;
     }
     
     public void saveSettings(){

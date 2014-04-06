@@ -28,11 +28,6 @@ import javax.xml.ws.soap.SOAPBinding;
 public class LoginButton extends JButton implements CommandInterface{
 
     private LoginFrame loginFrame;
-    private User user;
-    private URL url;
-    private FrameClient frame;
-    private Service service;
-    private UserServer userServer;
     
     /**
      *
@@ -50,14 +45,14 @@ public class LoginButton extends JButton implements CommandInterface{
     @Override
     public void processEvent() {
         
-        user = null;
+        User user = null;
         
         try {
-            url = new URL("http://localhost:8080/ws_prototipo/UserServerImpl?wsdl");
+            URL url = new URL("http://localhost:8080/ws_prototipo/UserServerImpl?wsdl");
             QName qname = new QName("http://ws.edu/", "UserServerImplService");
 
-            service = Service.create(url, qname);
-            userServer = service.getPort(UserServer.class);
+            Service service = Service.create(url, qname);
+            UserServer userServer = service.getPort(UserServer.class);
 
             //enable MTOM in client
             BindingProvider bp = (BindingProvider) userServer;
@@ -95,7 +90,7 @@ public class LoginButton extends JButton implements CommandInterface{
             JOptionPane.showMessageDialog(loginFrame, "No se reconoce usuario", "Ingresar", JOptionPane.ERROR_MESSAGE);
         }
         else{
-            frame = new FrameClient(800, 600, "Ventana de prueba", 200, 50, user);
+            new FrameClient(800, 600, "Ventana de prueba", 200, 50, user);
             loginFrame.dispose();
         }
     }

@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class PropertiesTool extends Properties{
     
     private String fileName;
-    private InputStream inputStream;
     
     /**
      *
@@ -34,7 +33,7 @@ public class PropertiesTool extends Properties{
     public PropertiesTool(String fileName) throws IOException {
         this.fileName = fileName;
         try {
-            inputStream = new FileInputStream(fileName);
+            InputStream inputStream = new FileInputStream(fileName);
             this.load(inputStream);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PropertiesTool.class.getName()).log(Level.SEVERE, null, ex);
