@@ -1,6 +1,7 @@
 package edu.view;
 
 import edu.api.gui.CommandInterface;
+import edu.logic.gui.Mediator;
 import javax.swing.JButton;
 
 /**
@@ -10,8 +11,11 @@ import javax.swing.JButton;
  */
 public class ReadButton extends JButton implements CommandInterface{
 
-    ReadButton(String text) {
+    Mediator mediator;
+    
+    ReadButton(String text, Mediator m) {
         super(text);
+        mediator = m;
     }
 
     /**
@@ -19,7 +23,7 @@ public class ReadButton extends JButton implements CommandInterface{
      */
     @Override
     public void processEvent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        mediator.readDocuments();
     }
     
 }

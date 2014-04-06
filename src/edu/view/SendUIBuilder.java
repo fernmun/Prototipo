@@ -21,9 +21,6 @@ public class SendUIBuilder extends UIBuilder{
 
     
     private JTextArea txtMessage;
-    private JPanel pnlForm, pnlFormFields, pnlSendButton;
-    private JScrollPane jspMessage;
-    private SendButton btnSend;
     
     /**
      *
@@ -42,8 +39,8 @@ public class SendUIBuilder extends UIBuilder{
         ButtonHandler handler = new ButtonHandler();
         
         panelUI = new JPanel(new BorderLayout(20, 20));
-        pnlForm = new JPanel(new BorderLayout(10, 10));
-        pnlFormFields = new JPanel(new SpringLayout());
+        JPanel pnlForm = new JPanel(new BorderLayout(10, 10));
+        JPanel pnlFormFields = new JPanel(new SpringLayout());
         
         
         pnlFormFields.add(new JLabel("Documento firmado:", JLabel.TRAILING));
@@ -52,10 +49,12 @@ public class SendUIBuilder extends UIBuilder{
         pnlFormFields.add(btnFindDocument);
         
         pnlFormFields.add(new JLabel("Destinatario:", JLabel.TRAILING));
-        pnlFormFields.add(new FindUserButton("Escoger Usuario"));
+        JButton btnChooseUser = new FindUserButton("Escoger Usuario", mediatorUI);
+        btnChooseUser.addActionListener(handler);
+        pnlFormFields.add(btnChooseUser);
         
         txtMessage = new JTextArea();
-        jspMessage = new JScrollPane(txtMessage);
+        JScrollPane jspMessage = new JScrollPane(txtMessage);
         pnlFormFields.add(new JLabel("Mensaje:", JLabel.TRAILING));
         pnlFormFields.add(jspMessage);
         
@@ -63,9 +62,10 @@ public class SendUIBuilder extends UIBuilder{
         
         
         
-        pnlSendButton = new JPanel();
-        btnSend = new SendButton("Enviar");
+        JPanel pnlSendButton = new JPanel();
+        JButton btnSend = new SendButton("Enviar", mediatorUI);
         btnSend.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        btnSend.addActionListener(handler);
         pnlSendButton.add(btnSend);
         
         pnlForm.add(pnlFormFields, BorderLayout.CENTER);
@@ -76,6 +76,10 @@ public class SendUIBuilder extends UIBuilder{
         panelUI.add(new JPanel(), BorderLayout.EAST);
         panelUI.add(new JPanel(), BorderLayout.SOUTH);
         panelUI.add(pnlForm, BorderLayout.CENTER);
+    }
+
+    public String getMessage() {
+        return txtMessage.getText();
     }
 
     /**

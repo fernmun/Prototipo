@@ -96,7 +96,8 @@ public class InboxUIBuilder extends UIBuilder{
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(tblInbox);
         
-        ReadButton btnRead = new ReadButton("Marcar como leído");
+        ReadButton btnRead = new ReadButton("Marcar como leído", mediatorUI);
+        btnRead.addActionListener(buttonHandler);
         DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
         btnDownload.addActionListener(buttonHandler);
         
@@ -137,7 +138,8 @@ public class InboxUIBuilder extends UIBuilder{
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(tblReadbox);
         
-        UnreadButton btnUnread = new UnreadButton("Marcar como no leído");
+        UnreadButton btnUnread = new UnreadButton("Marcar como no leído", mediatorUI);
+        btnUnread.addActionListener(buttonHandler);
         DownloadDocumentButton btnDownload = new DownloadDocumentButton("Descargar", mediatorUI);
         btnDownload.addActionListener(buttonHandler);
         

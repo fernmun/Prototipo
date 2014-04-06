@@ -1,6 +1,7 @@
 package edu.view;
 
 import edu.api.gui.CommandInterface;
+import edu.logic.gui.Mediator;
 import javax.swing.JButton;
 
 /**
@@ -10,8 +11,11 @@ import javax.swing.JButton;
  */
 public class FindUserButton extends JButton implements CommandInterface{
 
-    FindUserButton(String text) {
+    Mediator mediator;
+    
+    FindUserButton(String text, Mediator m) {
         super (text);
+        mediator = m;
     }
 
     /**
@@ -19,7 +23,7 @@ public class FindUserButton extends JButton implements CommandInterface{
      */
     @Override
     public void processEvent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        new UserChooseFrame(400, 150, "Elegir Usuario", 250, 50, mediator);
     }
     
 }

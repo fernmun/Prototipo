@@ -1,11 +1,13 @@
 package edu.logic.gui;
 
+import edu.api.ServicesProviderInterface;
 import edu.api.SignVerifier;
 import edu.api.SignerCreator;
 import edu.api.SignerInterface;
 import edu.logic.Document;
 import edu.logic.ExtSignDocumentCreator;
 import edu.logic.SignDocument;
+import edu.logic.WebServicesProvider;
 import edu.ws.FileServer;
 import edu.logic.pki.ExtFileSignerCreator;
 import edu.logic.pki.ExtSignVerifierCreator;
@@ -15,6 +17,7 @@ import edu.logic.tools.PropertiesTool;
 import edu.logic.tools.StringCipher;
 import edu.view.FrameClient;
 import edu.view.InboxUIBuilder;
+import edu.view.SendUIBuilder;
 import edu.view.SettingsUIBuilder;
 import edu.view.SignUIBuilder;
 import edu.view.VerifyUIBuilder;
@@ -49,12 +52,15 @@ public class Mediator {
 
     private FrameClient frameClient;
     private File documentToSign;
-    private PropertiesTool properties, settings;
+    private PropertiesTool settings;
     private KeyStoreTools kst;
     private SignUIBuilder sBuilder;
+    private SendUIBuilder eBuilder;
     private InboxUIBuilder iBuilder;
     private VerifyUIBuilder vBuilder;
     private SettingsUIBuilder cBuilder;
+    private ServicesProviderInterface provider;
+    private int userToSend, processToSend;
 
     public Mediator() {
         try {
@@ -62,6 +68,7 @@ public class Mediator {
         } catch (IOException ex) {
             Logger.getLogger(Mediator.class.getName()).log(Level.SEVERE, null, ex);
         }
+        provider = WebServicesProvider.getWebServicesProvider();
     }
 
     /**
@@ -84,6 +91,10 @@ public class Mediator {
      */
     public void registerSignerUIBuilder(SignUIBuilder builder){
         sBuilder = builder;
+    }
+    
+    public void registerSendUIBuilder(SendUIBuilder builder){
+        eBuilder = builder;
     }
 
     /**
@@ -159,10 +170,11 @@ public class Mediator {
         SignerInterface signer = signerCreator.getSigner(ext);
 
         File outFile = signer.sign(documentToSign, pk, chain[0]);
-
+        
         boolean created = (outFile != null && outFile.length() > 0L);
 
         if(created) {
+            documentToSign = outFile;
             JOptionPane.showMessageDialog(frameClient, "Documento Firmado");
         }
         else {
@@ -178,26 +190,13 @@ public class Mediator {
      * @throws Exception
      */
     public boolean sendDocument() throws Exception{
-        properties = new PropertiesTool("web-services.properties");
-
-        String fileName = properties.getProperty("ws.up_file");
-        String directory = properties.getProperty("ws.up_directory");
-
-        URL url = new URL(properties.getProperty("ws.file_request"));
-        QName qName = new QName(properties.getProperty("ws.file_request.qname"), properties.getProperty("ws.file_request.service"));
-        Service service = Service.create(url, qName);
-        FileServer fileServer = service.getPort(FileServer.class);
-
-        DocumentHandle documentSigned = new DocumentHandle(fileName, directory);
-
-        //Enable MTOM in client
-        BindingProvider bindingProvider = (BindingProvider) fileServer;
-        SOAPBinding soapBinding = (SOAPBinding) bindingProvider.getBinding();
-        soapBinding.setMTOMEnabled(true);
-
-        String status = fileServer.uploadFile(documentSigned.readFile(), fileName);
-        
-        return false;
+        boolean sucess = false;
+        if(userToSend > 0){
+            sucess = provider.sendDocumentToUser(documentToSign, eBuilder.getMessage(), userToSend);
+        } else if(processToSend > 0){
+            sucess = provider.sendDocumentToProcess(documentToSign, eBuilder.getMessage(), processToSend);
+        }
+        return sucess;
     }
 
     /**
@@ -287,5 +286,18 @@ public class Mediator {
         System.out.println(settings);
     }
 
+    public void setUserToSend(int userToSend) {
+        this.userToSend = userToSend;
+    }
 
+    public void setProcessToSend(int processToSend) {
+        this.processToSend = processToSend;
+    }
+
+    public void readDocuments(){
+    }
+    
+    public void unreadDocuments(){
+    }
+    
 }

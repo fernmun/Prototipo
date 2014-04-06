@@ -1,6 +1,10 @@
 package edu.view;
 
 import edu.api.gui.CommandInterface;
+import edu.logic.WebServicesProvider;
+import edu.logic.gui.Mediator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 /**
@@ -10,8 +14,11 @@ import javax.swing.JButton;
  */
 public class SendButton extends JButton implements CommandInterface{
 
-    SendButton(String text) {
+    Mediator mediator;
+    
+    SendButton(String text, Mediator m) {
         super(text);
+        mediator = m;
     }
 
     /**
@@ -19,7 +26,11 @@ public class SendButton extends JButton implements CommandInterface{
      */
     @Override
     public void processEvent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            mediator.sendDocument();
+        } catch (Exception ex) {
+            Logger.getLogger(SendButton.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

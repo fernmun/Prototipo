@@ -23,10 +23,6 @@ import javax.xml.ws.soap.SOAPBinding;
 public class InboxTools {
 
     
-    private FileServer fileServer;
-    private URL url;
-    private Service service;
-    
     /**
      * 
      */
@@ -97,45 +93,45 @@ public class InboxTools {
 //        inbox = getUserInboxFiles();
         return inbox;
     }
-    
-    private ArrayDeque<Document> getUserInboxFiles(){
-    
-        ArrayDeque<Document> documents = new ArrayDeque<Document>();
-        
-        try {
-            User user = User.getUser();
-            
-            url = new URL("http://192.168.43.104:8080/ws_prototipo/FileServerImpl?wsdl");
-            QName qname = new QName("http://ws.edu/", "FSImpl");
-
-            service = Service.create(url, qname);
-            fileServer = service.getPort(FileServer.class);
-
-            //enable MTOM in client
-            BindingProvider bp = (BindingProvider) fileServer;
-            SOAPBinding binding = (SOAPBinding) bp.getBinding();
-            binding.setMTOMEnabled(true);
-
-            int[] status = fileServer.getUserFiles(user.getUid());
-            System.out.println(user.getUid());
-            System.out.println(status.length);
-            
-            for (int idDocument : status) {
-                String[] document = fileServer.getDocument(idDocument);
-                Document doc = new Document(idDocument, document[1], "http://"+document[3]+"/"+document[1], new Date(), new Date());
-                System.out.println("0"+document[0]);
-                System.out.println("1"+document[1]);
-                System.out.println("2"+document[2]);
-                System.out.println("3"+document[3]);
-//                Document doc = new Document(idDocument, document[1], document[2], new Date(document[4]), new Date(document[4]));
-                documents.add(doc);
-            }
-        
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LoginButton.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-        
-        return documents;
-    }
+//    
+//    private ArrayDeque<Document> getUserInboxFiles(){
+//    
+//        ArrayDeque<Document> documents = new ArrayDeque<Document>();
+//        
+//        try {
+//            User user = User.getUser();
+//            
+//            URL url = new URL("http://192.168.43.104:8080/ws_prototipo/FileServerImpl?wsdl");
+//            QName qname = new QName("http://ws.edu/", "FSImpl");
+//
+//            Service service = Service.create(url, qname);
+//            FileServer fileServer = service.getPort(FileServer.class);
+//
+//            //enable MTOM in client
+//            BindingProvider bp = (BindingProvider) fileServer;
+//            SOAPBinding binding = (SOAPBinding) bp.getBinding();
+//            binding.setMTOMEnabled(true);
+//
+//            int[] status = fileServer.getUserFiles(user.getUid());
+//            System.out.println(user.getUid());
+//            System.out.println(status.length);
+//            
+//            for (int idDocument : status) {
+//                String[] document = fileServer.getDocument(idDocument);
+//                Document doc = new Document(idDocument, document[1], "http://"+document[3]+"/"+document[1], new Date(), new Date());
+//                System.out.println("0"+document[0]);
+//                System.out.println("1"+document[1]);
+//                System.out.println("2"+document[2]);
+//                System.out.println("3"+document[3]);
+////                Document doc = new Document(idDocument, document[1], document[2], new Date(document[4]), new Date(document[4]));
+//                documents.add(doc);
+//            }
+//        
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(LoginButton.class.getName()).log(Level.SEVERE, null, ex);
+//        } 
+//        
+//        
+//        return documents;
+//    }
 }
